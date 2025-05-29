@@ -1,0 +1,51 @@
+@url=http://localhost:8000
+
+### HTTP server configuration
+GET {{url}}/students
+
+### Create a new student
+
+
+POST {{url}}/students
+Content-Type: application/json
+
+{
+ "studentID": "12345",
+ "firstName": "John",
+ "lastName": "Doe",
+ "email": "john@gmail.com",
+ "dateOfBirth": "2000-01-01",
+ "gender":"male",
+ "phoneNumber": "123-456-7890",
+ "address": "123 Main St, Anytown, USA",
+ "country": "USA",
+ "state": "California",
+ "city": "Los Angeles",
+ "enrollmentDate": "2023-09-01",
+ "status": "active",
+ "profilePicture": "http://example.com/profile.jpg"
+}
+
+### Get a student by ID
+ GET {{url}}/students/12345
+### Get student by name
+GET {{url}}/students?firstName=John
+
+### ADMIN
+### create a new admin
+POST {{url}}/admins
+Content-Type: application/json
+
+{
+ "admin_id": 4,
+ "username": "Smith",
+ "password": "Smith123",
+ "email": "smith@gmail.com",
+ "lastLogin": "2023-10-01T12:00:00Z",
+ "isSuperAdmin": true
+}
+
+### Get all admins
+GET {{url}}/admins
+
+
