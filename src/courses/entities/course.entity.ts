@@ -1,5 +1,6 @@
 // import { isNotEmpty } from "class-validator";
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Student } from 'src/student/entities/student.entity/student.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn()
@@ -24,4 +25,7 @@ export class Course {
   @Column({ nullable: false })
   // @isNotEmpty()
   status: string;
+
+  @ManyToMany(() => Student, (student) => student.courses)
+  students: Student[];
 }

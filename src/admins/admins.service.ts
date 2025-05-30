@@ -28,17 +28,22 @@ export class AdminsService {
     });
   }
   async findAll(name?: string) {
-    if (name) {
+    try {
+      if (name) {
+        return await this.adminsRepository.find({
+          where: {
+            adminProfile: { first_name: name },
+          },
+          relations: ['adminProfile'],
+        });
+      }
       return await this.adminsRepository.find({
-        where: {
-          adminProfile: { first_name: name },
-        },
         relations: ['adminProfile'],
       });
+    } catch (error) {
+      console.error('Error fetching admins:', error);
+      throw new NotFoundException('Admins not found');
     }
-    return await this.adminsRepository.find({
-      relations: ['adminProfile'],
-    });
   }
 
   async findOne(id: number) {

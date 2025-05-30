@@ -4,6 +4,7 @@
 // phone_number	VARCHAR	Admin's phone number
 // address	TEXT	Admin's residential address
 // profile_picture	VARCHAR	Path to the admin's profile picture
+import { Exclude } from 'class-transformer';
 import { IsString, IsNotEmpty } from 'class-validator';
 export class CreateAdminProfileDto {
   @IsString()
@@ -19,5 +20,4 @@ export class CreateAdminProfileDto {
   address: string;
   @IsString()
   profilePicture: string;
-  admin_id: number; // Foreign Key referencing admins
 }

@@ -10,12 +10,11 @@ POST {{url}}/students
 Content-Type: application/json
 
 {
- "studentID": "12345",
- "firstName": "John",
+ "firstName": "Jane",
  "lastName": "Doe",
- "email": "john@gmail.com",
+ "email": "jane@gmail.com",
  "dateOfBirth": "2000-01-01",
- "gender":"male",
+ "gender":"female",
  "phoneNumber": "123-456-7890",
  "address": "123 Main St, Anytown, USA",
  "country": "USA",
@@ -27,25 +26,224 @@ Content-Type: application/json
 }
 
 ### Get a student by ID
- GET {{url}}/students/12345
+ GET {{url}}/students/2
 ### Get student by name
 GET {{url}}/students?firstName=John
+### Get student by registration number
+GET {{url}}/students/1/registration-number
 
 ### ADMIN
+
+### Get all admins
+
+GET {{url}}/admins
 ### create a new admin
 POST {{url}}/admins
 Content-Type: application/json
 
 {
- "admin_id": 4,
- "username": "Smith",
- "password": "Smith123",
- "email": "smith@gmail.com",
+ "admin_id": 6,
+ "username": "sam",
+ "password": "Samuel123",
+ "email": "sam@gmail.com",
  "lastLogin": "2023-10-01T12:00:00Z",
  "isSuperAdmin": true
 }
 
-### Get all admins
-GET {{url}}/admins
+### Get admin by id
+GET {{url}}/admins/4
+
+### Get admin by username
+GET {{url}}/admins?username=sam
+
+### Update an admin
+PATCH  {{url}}/admins/5
+Content-Type: application/json
+
+{
+ "username": "Getrude",
+ "email": "getrude@gmail.com"
+}
+### Delete an admin
+DELETE {{url}}/admins/4
+
+### AdminsProfile
+### Get all admin profiles
+GET {{url}}/admins/profiles
+### Create a new admin profile
+POST {{url}}/admin-profiles
+Content-Type: application/json
+
+{
+ "firstName": "Sam",
+ "lastName": "Smith",
+ "phoneNumber": "123-456-7890",
+ "address": "123 Admin St, Admin City, USA",
+ "profilePicture": "http://example.com/admin_profile.jpg"
+}
+
+### Get admin profile by ID
+GET {{url}}/admin-profiles/1
+
+### Get admin profile by name
+GET {{url}}/admin-profiles?firstName=Sam
+
+### Update an admin profile
+PATCH {{url}}/admin-profiles/1
+Content-Type: application/json
+
+{
+ "phoneNumber": "987-654-3210",
+ "address": "456 Admin Ave, Admin City, USA"
+}
+
+### Delete an admin profile
+DELETE {{url}}/admin-profiles/1
+
+### Courses
+### Get all courses 
+GET {{url}}/courses
+### Create a new course
+POST {{url}}/courses
+Content-Type: application/json
+
+{
+ "courseName": "Introduction to Programming",
+ "courseCode": "CS101",
+ "description": "A beginner's course in programming.",
+ "credits": 3,
+ "department": "Computer Science",
+ "semester": "Fall 2023"
+}
+### Get course by ID
+GET {{url}}/courses/1
+### Get course by name
+GET {{url}}/courses?courseName=Introduction%20to%20Programming
+### Update a course
+PATCH {{url}}/courses/1
+Content-Type: application/json
+
+{
+ "courseName": "Advanced Programming",
+ "credits": 4
+}
+### Delete a course
+DELETE {{url}}/courses/1
+### Enrollments
+### Get all enrollments
+ 
+GET {{url}}/enrollments
+### Create a new enrollment
+POST {{url}}/enrollments
+Content-Type: application/json
+
+{
+ "studentId": 12345,
+ "courseId": 1,
+ "enrollmentDate": "2023-09-01",
+ "status": "active"
+}
+
+### Get enrollment by ID
+GET {{url}}/enrollments/1   
+### Get enrollment by student ID
+GET {{url}}/enrollments?studentId=12345
+### Get enrollment by course ID
+GET {{url}}/enrollments?courseId=1
+
+## Update an enrollment
+PATCH {{url}}/enrollments/1
+Content-Type: application/json
+
+{
+ "status": "completed"
+}
+### Delete an enrollment
+DELETE {{url}}/enrollments/1
+### Registrations
+### Get all registrations
+GET {{url}}/registrations
+### Create a new registration
+POST {{url}}/registrations
+Content-Type: application/json
+
+{
+ "studentId": "12345",
+ "courseId": "1",
+ "sessionId": "2023-Fall",
+ "subjectId": "CS101",
+ "registrationDate": 2023-09-01,
+ "status": "pending"
+}
+### Get registration by ID
+GET {{url}}/registrations/1
+### Get registration by student ID
+GET {{url}}/registrations?studentId=12345
+### Get registration by course ID
+GET {{url}}/registrations?courseId=1
+### Update a registration
+PATCH {{url}}/registrations/1
+Content-Type: application/json
+
+{
+ "status": "approved"
+}
+### Delete a registration
+DELETE {{url}}/registrations/1
+### Subjects
+### Get all subjects
+GET {{url}}/subjects
+### Create a new subject
+POST {{url}}/subjects
+Content-Type: application/json
+
+{
+ "subjectName": "Data Structures",
+ "subjectCode": "CS102",
+ "description": "An intermediate course in data structures.",
+ "credits": 3,
+ "department": "Computer Science",
+ "semester": "Fall 2023"
+}
+### Get subject by ID
+GET {{url}}/subjects/1
+### Get subject by name
+GET {{url}}/subjects?subjectName=Data%20Structures
+### Update a subject
+PATCH {{url}}/subjects/1
+Content-Type: application/json
+
+{
+ "subjectName": "Advanced Data Structures",
+ "credits": 4
+}
+### Delete a subject
+DELETE {{url}}/subjects/1
+### Sessions
+### Get all sessions
+GET {{url}}/sessions
+### Create a new session
+POST {{url}}/sessions
+Content-Type: application/json
+
+{
+ "sessionName": "2023 Fall",
+ "startDate": "2023-09-01",
+ "endDate": "2023-12-15",
+ "status": "active"
+}
+### Get session by ID
+GET {{url}}/sessions/1
+### Get session by name
+GET {{url}}/sessions?sessionName=2023%20Fall
+### Update a session
+PATCH {{url}}/sessions/1
+Content-Type: application/json
+
+{
+ "endDate": "2023-12-20",
+ "status": "completed"
+}
+
 
 

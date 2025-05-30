@@ -11,7 +11,13 @@ export class CourseEnrollmentsService {
     @InjectRepository(CourseEnrollment)
     private courseEnrollmentsRepository: Repository<CourseEnrollment>,
   ) {}
-  create(createCourseEnrollmentDto: CreateCourseEnrollmentDto) {
+  async create(
+    createCourseEnrollmentDto: CreateCourseEnrollmentDto,
+  ): Promise<CreateCourseEnrollmentDto> {
+    const courseEnrollment = this.courseEnrollmentsRepository.create(
+      createCourseEnrollmentDto,
+    );
+    await this.courseEnrollmentsRepository.save(courseEnrollment);
     return createCourseEnrollmentDto;
   }
 

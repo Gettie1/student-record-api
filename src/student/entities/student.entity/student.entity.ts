@@ -1,4 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CourseEnrollment } from 'src/course-enrollments/entities/course-enrollment.entity';
+import { Course } from 'src/courses/entities/course.entity';
+import { Feedback } from 'src/feedbacks/entities/feedback.entity';
+import { Registration } from 'src/registrations/entities/registration.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 
 @Entity()
 export class Student {
@@ -14,7 +26,7 @@ export class Student {
   @Column({ unique: true })
   email: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  dateOfBirth: Date;
+  dateOfBirth: string;
   @Column({ nullable: true })
   phoneNumber?: string;
 
@@ -27,7 +39,7 @@ export class Student {
   @Column({ nullable: true })
   city: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  enrollmentDate: Date;
+  enrollmentDate: string;
   @Column({ nullable: false })
   status: string;
   @Column({ nullable: false })
@@ -38,4 +50,17 @@ export class Student {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+  @OneToMany(() => Registration, (registration) => registration.student)
+  registrations: Registration[];
+  @OneToMany(
+    () => CourseEnrollment,
+    (courseEnrollment) => courseEnrollment.student,
+  )
+  courseEnrollments: CourseEnrollment[];
+  @OneToMany(() => Feedback, (feedback) => feedback.student)
+  feedbacks: Feedback[];
+
+  @ManyToMany(() => Course, (course) => course.students)
+  @JoinTable()
+  courses: Relation<Course[]>;
 }

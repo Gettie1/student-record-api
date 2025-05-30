@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   Relation,
+  OneToOne,
 } from 'typeorm';
 import { AdminProfile } from '../../admin-profiles/entities/admin-profile.entity';
 @Entity()
@@ -27,6 +28,10 @@ export class Admin {
   @Column({ default: false })
   isSuperAdmin: boolean;
 
+  @OneToOne(() => AdminProfile, (adminProfile) => adminProfile.admin, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   adminProfile: Relation<AdminProfile>;
 }

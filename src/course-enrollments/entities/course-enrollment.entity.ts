@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Student } from 'src/student/entities/student.entity/student.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class CourseEnrollment {
   student_id: number;
@@ -14,4 +15,6 @@ export class CourseEnrollment {
 
   @Column()
   status?: string;
+  @ManyToOne(() => Student, (student) => student.courseEnrollments)
+  student: Student; // Assuming a course enrollment is linked to a single student
 }

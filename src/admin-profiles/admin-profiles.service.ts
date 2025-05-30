@@ -11,8 +11,22 @@ export class AdminProfilesService {
     @InjectRepository(AdminProfile)
     private adminRepository: Repository<AdminProfile>,
   ) {}
-  create(createAdminProfileDto: CreateAdminProfileDto) {
-    return this.adminRepository.save(createAdminProfileDto);
+  async create(createAdminProfileDto: CreateAdminProfileDto) {
+    try {
+      const existingProfile = await this.adminRepository.findOne({
+        where: { admin: { email: String(createAdminProfileDto.firstName) } },
+        relations: ['admin'],
+      });
+      if (existingProfile) {
+        console.log('Admin profile already exists for this admin.');
+        return existingProfile;
+      }
+      const newProfile = this.adminRepository.create(createAdminProfileDto);
+      return this.adminRepository.save(newProfile);
+    } catch (error) {
+      console.error('Error creating admin profile:', error);
+      throw new Error('Failed to create admin profile');
+    }
   }
 
   async findAll(email?: string) {
@@ -55,12 +69,3 @@ export class AdminProfilesService {
     }
   }
 }
-
-//   update(id: number, updateAdminProfileDto: UpdateAdminProfileDto) {
-//     return updateAdminProfileDto;
-//   }
-
-//   remove(id: number) {
-//     return `This action removes a #${id} adminProfile`;
-//   }
-// }

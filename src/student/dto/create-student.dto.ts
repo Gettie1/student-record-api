@@ -1,7 +1,7 @@
 // import 'reflect-metadata';
 // import { Type } from 'class-transformer';
 import { IsEmail, IsString, IsDate } from 'class-validator';
-// import { Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 export class CreateStudentDto {
   // @IsString()
   // studentId: string;
@@ -15,7 +15,7 @@ export class CreateStudentDto {
   @IsEmail()
   email: string;
 
-  // @Type(() => Date)
+  @Type(() => Date)
   @IsDate()
   dateOfBirth: Date;
 
@@ -37,7 +37,7 @@ export class CreateStudentDto {
   @IsString()
   city: string;
 
-  // @Type(() => Date)
+  @Type(() => Date)
   @IsDate()
   enrollmentDate: Date;
 

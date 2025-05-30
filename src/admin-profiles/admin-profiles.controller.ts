@@ -17,6 +17,7 @@ export class AdminProfilesController {
 
   @Post()
   create(@Body() createAdminProfileDto: CreateAdminProfileDto) {
+    console.log('Creating admin profile with data:', createAdminProfileDto);
     return this.adminProfilesService.create(createAdminProfileDto);
   }
 

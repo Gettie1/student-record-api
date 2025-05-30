@@ -22,9 +22,9 @@ export class AdminsController {
   }
 
   @Get()
-  findAll(@Query('username') username?: string) {
-    if (username) {
-      return this.adminsService.findAll(username);
+  findAll(@Query('name') name?: string) {
+    if (name) {
+      return this.adminsService.findAll(name);
     }
     return this.adminsService.findAll();
   }
