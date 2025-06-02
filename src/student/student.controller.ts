@@ -3,9 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   ParseIntPipe,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { Query } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -17,7 +18,7 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
   @Post()
-  create(@Body() createStudentDto: CreateStudentDto) {
+  async create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }
   // create(@Body() body: CreateStudentDto) {
@@ -36,12 +37,20 @@ export class StudentController {
   findRegistrations(@Param('id', ParseIntPipe) id: number) {
     return this.studentService.findRegistrations(id);
   }
-  @Patch(':id')
+  @Get(':id/courses')
+  findCourses(@Param('id', ParseIntPipe) id: number) {
+    return this.studentService.findCourses(id);
+  }
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe)
     id: number,
     @Body() updateStudentDto: UpdateStudentDto,
   ) {
     return this.studentService.update(id, updateStudentDto);
+  }
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.studentService.remove(id);
   }
 }

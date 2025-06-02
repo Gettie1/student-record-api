@@ -6,13 +6,17 @@
 // credits	INT	Number of credits for the course
 // description	TEXT	Detailed description of the course
 // status	VARCHAR	Status (active/inactive)
+import { Type } from 'class-transformer';
 import { IsString, IsDate, IsNumber } from 'class-validator';
 export class CreateCourseDto {
+  @IsString()
   courseName: string;
   @IsString()
   courseCode: string;
+  @Type(() => Date)
   @IsDate()
   createdAt: Date;
+  @Type(() => Date)
   @IsDate()
   updatedAt: Date;
   @IsNumber()

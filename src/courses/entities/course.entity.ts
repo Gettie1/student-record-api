@@ -1,6 +1,13 @@
 // import { isNotEmpty } from "class-validator";
+import { CourseEnrollment } from 'src/course-enrollments/entities/course-enrollment.entity';
 import { Student } from 'src/student/entities/student.entity/student.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn()
@@ -28,4 +35,9 @@ export class Course {
 
   @ManyToMany(() => Student, (student) => student.courses)
   students: Student[];
+  @OneToMany(
+    () => CourseEnrollment,
+    (courseEnrollment) => courseEnrollment.course,
+  )
+  courseEnrollments: CourseEnrollment[]; // Assuming a course can have multiple enrollments
 }

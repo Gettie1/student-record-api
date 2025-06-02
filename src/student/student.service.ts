@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity/student.entity';
+import { Course } from 'src/courses/entities/course.entity';
 @Injectable()
 export class StudentService {
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
+    @InjectRepository(Course)
+    private courseRepository: Repository<Course>,
   ) {}
   async create(createStudentDto: CreateStudentDto) {
-    const dto = {
+    const { email, dateOfBirth, enrollmentDate } = createStudentDto;
+
+    const existingStudent = await this.studentRepository.findOne({
+      where: { email },
+    });
+    if (existingStudent) {
+      throw new BadRequestException(
+        `Student with email ${email} already exists`,
+      );
+    }
+
+    const parsedDateOfBirth = new Date(dateOfBirth);
+    const parsedEnrollmentDate = new Date(enrollmentDate);
+
+    if (isNaN(parsedDateOfBirth.getTime())) {
+      throw new BadRequestException('Invalid dateOfBirth format');
+    }
+    if (isNaN(parsedEnrollmentDate.getTime())) {
+      throw new BadRequestException('Invalid enrollmentDate format');
+    }
+
+    const student = this.studentRepository.create({
       ...createStudentDto,
-      dateOfBirth: createStudentDto.dateOfBirth
-        ? createStudentDto.dateOfBirth.toISOString()
-        : undefined,
-      enrollmentDate: createStudentDto.enrollmentDate
-        ? createStudentDto.enrollmentDate.toISOString()
-        : undefined,
-    };
-    const student = this.studentRepository.create(dto);
+      dateOfBirth: parsedDateOfBirth.toISOString(),
+      enrollmentDate: parsedEnrollmentDate.toISOString(),
+    });
+
     return this.studentRepository.save(student);
   }
 
@@ -53,7 +77,7 @@ export class StudentService {
       where: { studentId: id.toString() },
     });
     if (!student) {
-      throw new Error(`Student with ID ${id} not found`);
+      throw new NotFoundException(`Student with ID ${id} not found`);
     }
     return student;
   }
@@ -64,7 +88,7 @@ export class StudentService {
       relations: ['registrations'],
     });
     if (!student) {
-      throw new Error(`Student with ID ${id} not found`);
+      throw new NotFoundException(`Student with ID ${id} not found`);
     }
     return student;
   }
@@ -84,19 +108,34 @@ export class StudentService {
     await this.studentRepository.save(student);
     return updateStudentDto;
   }
+  async findCourses(id: number): Promise<Student> {
+    const enrollStudentInCourses = await this.studentRepository.findOne({
+      where: { studentId: id.toString() },
+      relations: ['courseEnrollments', 'courseEnrollments.course'],
+    });
+    if (!enrollStudentInCourses) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+    return enrollStudentInCourses;
+  }
+  async findFeedbacks(id: number): Promise<Student> {
+    const student = await this.studentRepository.findOne({
+      where: { studentId: id.toString() },
+      relations: ['feedbacks'],
+    });
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+    return student;
+  }
   async remove(id: number): Promise<string> {
     const student = await this.studentRepository.findOne({
       where: { studentId: id.toString() },
     });
     if (!student) {
-      throw new Error(`Student with ID ${id} not found`);
+      throw new NotFoundException(`Student with ID ${id} not found`);
     }
     await this.studentRepository.remove(student);
-    const enrollmentDate = student.enrollmentDate;
-    if (!enrollmentDate) {
-      throw new Error(`Enrollment date for student with ID ${id} not found`);
-    }
-
-    return `This action removes a #${id} student`;
+    return `Student with ID ${id} has been removed successfully`;
   }
 }

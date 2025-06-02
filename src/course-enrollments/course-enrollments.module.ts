@@ -4,9 +4,13 @@ import { CourseEnrollmentsController } from './course-enrollments.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CourseEnrollment } from './entities/course-enrollment.entity';
+import { Course } from 'src/courses/entities/course.entity';
 
 @Module({
-  imports: [DatabaseModule, TypeOrmModule.forFeature([CourseEnrollment])], // Add any necessary modules here, e.g., TypeOrmModule for database access
+  imports: [
+    DatabaseModule,
+    TypeOrmModule.forFeature([CourseEnrollment, Course]),
+  ], // Add any necessary modules here, e.g., TypeOrmModule for database access
   controllers: [CourseEnrollmentsController],
   providers: [CourseEnrollmentsService],
 })

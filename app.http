@@ -10,9 +10,9 @@ POST {{url}}/students
 Content-Type: application/json
 
 {
- "firstName": "Jane",
+ "firstName": "Janet",
  "lastName": "Doe",
- "email": "jane@gmail.com",
+ "email": "janet@gmail.com",
  "dateOfBirth": "2000-01-01",
  "gender":"female",
  "phoneNumber": "123-456-7890",
@@ -26,11 +26,28 @@ Content-Type: application/json
 }
 
 ### Get a student by ID
- GET {{url}}/students/2
+GET {{url}}/students/1/registrations
+
+###Get students by course
+GET {{url}}/students/1/courses
+
 ### Get student by name
-GET {{url}}/students?firstName=John
+GET {{url}}/students?email=janet@gmail.com
 ### Get student by registration number
-GET {{url}}/students/1/registration-number
+GET {{url}}/students/1/email=john@gmail.com
+### Get student by course
+### Update a student
+PUT {{url}}/students/1
+Content-Type: application/json
+
+{
+ "firstName": "Janet",
+ "lastName": "Smith",
+ "email": "julian@gmail.com",
+ "dateOfBirth": "2000-01-11"
+}
+### Delete a student
+DELETE {{url}}/students/3
 
 ### ADMIN
 
@@ -108,12 +125,13 @@ POST {{url}}/courses
 Content-Type: application/json
 
 {
- "courseName": "Introduction to Programming",
+  "courseName": "Introduction to Programming",    
  "courseCode": "CS101",
  "description": "A beginner's course in programming.",
  "credits": 3,
- "department": "Computer Science",
- "semester": "Fall 2023"
+ "status": "active",
+ "createdAt": "2023-09-01T00:00:00Z",
+ "updatedAt": "2023-09-01T00:00:00Z"
 }
 ### Get course by ID
 GET {{url}}/courses/1
@@ -168,11 +186,11 @@ POST {{url}}/registrations
 Content-Type: application/json
 
 {
- "studentId": "12345",
+ "studentId": "1",
  "courseId": "1",
  "sessionId": "2023-Fall",
  "subjectId": "CS101",
- "registrationDate": 2023-09-01,
+ "registrationDate": "2023-09-01",
  "status": "pending"
 }
 ### Get registration by ID

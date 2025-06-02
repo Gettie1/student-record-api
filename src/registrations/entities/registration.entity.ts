@@ -1,5 +1,5 @@
 import { Student } from 'src/student/entities/student.entity/student.entity';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm';
 @Entity()
 export class Registration {
   @PrimaryColumn()
@@ -15,5 +15,5 @@ export class Registration {
   @Column()
   status: string; // e.g., 'pending', 'approved', 'rejected'
   @ManyToOne(() => Student, (student) => student.registrations)
-  student: Student; // Establishing a many-to-one relationship with the Student entity
+  student: Relation<Student>; // Establishing a many-to-one relationship with the Student entity
 }

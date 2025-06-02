@@ -17,7 +17,7 @@ export class CreateStudentDto {
 
   @Type(() => Date)
   @IsDate()
-  dateOfBirth: Date;
+  dateOfBirth: string;
 
   @IsString()
   gender: string;
@@ -39,7 +39,7 @@ export class CreateStudentDto {
 
   @Type(() => Date)
   @IsDate()
-  enrollmentDate: Date;
+  enrollmentDate: string;
 
   @IsString()
   status: string;

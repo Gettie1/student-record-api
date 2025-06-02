@@ -26,7 +26,7 @@ export class Student {
   @Column({ unique: true })
   email: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  dateOfBirth: string;
+  dateOfBirth: Date;
   @Column({ nullable: true })
   phoneNumber?: string;
 
