@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Course } from 'src/courses/entities/course.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Subject {
   @PrimaryGeneratedColumn()
@@ -10,4 +11,8 @@ export class Subject {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
   credits: number;
+  @ManyToOne(() => Course, (course) => course.subjects, {
+    onDelete: 'CASCADE',
+  })
+  course: Course;
 }

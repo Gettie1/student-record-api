@@ -1,13 +1,16 @@
 import { CourseEnrollment } from 'src/course-enrollments/entities/course-enrollment.entity';
 import { Course } from 'src/courses/entities/course.entity';
 import { Feedback } from 'src/feedbacks/entities/feedback.entity';
+import { Profile } from 'src/profiles/entities/profile.entity';
 import { Registration } from 'src/registrations/entities/registration.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -15,7 +18,7 @@ import {
 @Entity()
 export class Student {
   @PrimaryGeneratedColumn()
-  studentId: string;
+  id: string;
 
   @Column()
   firstName: string;
@@ -50,6 +53,10 @@ export class Student {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToOne(() => Profile, (profile) => profile.student)
+  @JoinColumn()
+  profile: Relation<Profile[]>;
   @OneToMany(() => Registration, (registration) => registration.student)
   registrations: Registration[];
   @OneToMany(

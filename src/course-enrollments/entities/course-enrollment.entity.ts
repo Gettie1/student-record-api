@@ -3,7 +3,7 @@ import { Student } from 'src/student/entities/student.entity/student.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class CourseEnrollment {
-  student_id: number;
+  id: number;
 
   @PrimaryGeneratedColumn()
   course_id: number;

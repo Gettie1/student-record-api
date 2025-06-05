@@ -41,6 +41,10 @@ export class StudentController {
   findCourses(@Param('id', ParseIntPipe) id: number) {
     return this.studentService.findCourses(id);
   }
+  @Get(':id/profiles')
+  findProfile(@Param('id', ParseIntPipe) id: number) {
+    return this.studentService.findProfile(id);
+  }
   @Put(':id')
   update(
     @Param('id', ParseIntPipe)

@@ -9,15 +9,27 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity/student.entity';
 import { Course } from 'src/courses/entities/course.entity';
+import { Profile } from 'src/profiles/entities/profile.entity';
 @Injectable()
 export class StudentService {
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
+    @InjectRepository(Profile)
+    private profileRepository: Repository<Profile>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>,
   ) {}
   async create(createStudentDto: CreateStudentDto) {
+    // Check if the profile already exists
+    const existingProfile = await this.profileRepository.findOne({
+      where: { email: createStudentDto.email },
+    });
+    if (existingProfile) {
+      throw new BadRequestException(
+        `Profile with email ${createStudentDto.email} already exists`,
+      );
+    }
     const { email, dateOfBirth, enrollmentDate } = createStudentDto;
 
     const existingStudent = await this.studentRepository.findOne({
@@ -45,7 +57,12 @@ export class StudentService {
       enrollmentDate: parsedEnrollmentDate.toISOString(),
     });
 
-    return this.studentRepository.save(student);
+    await this.studentRepository.save(student);
+
+    return this.studentRepository.find({
+      where: { email: createStudentDto.email },
+      relations: ['profile'],
+    });
   }
 
   findAll(search?: string) {
@@ -74,7 +91,19 @@ export class StudentService {
   }
   async findOne(id: number): Promise<Student> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
+      relations: ['profile', 'registrations', 'courseEnrollments'],
+    });
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+    return student;
+  }
+
+  async findProfile(id: number): Promise<Student> {
+    const student = await this.studentRepository.findOne({
+      where: { id: id.toString() },
+      relations: ['profile'],
     });
     if (!student) {
       throw new NotFoundException(`Student with ID ${id} not found`);
@@ -84,7 +113,7 @@ export class StudentService {
 
   async findRegistrations(id: number): Promise<Student> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
       relations: ['registrations'],
     });
     if (!student) {
@@ -95,9 +124,9 @@ export class StudentService {
   async update(
     id: number,
     updateStudentDto: UpdateStudentDto,
-  ): Promise<UpdateStudentDto> {
+  ): Promise<Student> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
     });
     if (!student) {
       throw new Error(`Student with ID ${id} not found`);
@@ -105,12 +134,11 @@ export class StudentService {
     // Update the student entity with the new data
     Object.assign(student, updateStudentDto);
     // Save the updated student entity to the database
-    await this.studentRepository.save(student);
-    return updateStudentDto;
+    return this.studentRepository.save(student);
   }
   async findCourses(id: number): Promise<Student> {
     const enrollStudentInCourses = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
       relations: ['courseEnrollments', 'courseEnrollments.course'],
     });
     if (!enrollStudentInCourses) {
@@ -120,7 +148,7 @@ export class StudentService {
   }
   async findFeedbacks(id: number): Promise<Student> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
       relations: ['feedbacks'],
     });
     if (!student) {
@@ -130,12 +158,68 @@ export class StudentService {
   }
   async remove(id: number): Promise<string> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
     });
     if (!student) {
       throw new NotFoundException(`Student with ID ${id} not found`);
     }
     await this.studentRepository.remove(student);
     return `Student with ID ${id} has been removed successfully`;
+  }
+  //many-to-many relationship with courses
+  async enrollInCourse(id: number, course_id: number): Promise<Student> {
+    const student = await this.studentRepository.findOne({
+      where: { id: id.toString() },
+      relations: ['courses'],
+    });
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+
+    const course = await this.courseRepository.findOne({
+      where: { id: course_id.toString() },
+    });
+    if (!course) {
+      throw new NotFoundException(`Course with ID ${course_id} not found`);
+    }
+
+    // Check if the student is already enrolled in the course
+    if (student.courses.some((c) => c.id === course.id)) {
+      throw new BadRequestException(
+        `Student with ID ${id} is already enrolled in course with ID ${course_id}`,
+      );
+    }
+
+    student.courses.push(course);
+    return this.studentRepository.save(student);
+  }
+  async unenrollFromCourse(
+    studentId: number,
+    courseId: number,
+  ): Promise<Student> {
+    const student = await this.studentRepository.findOne({
+      where: { id: studentId.toString() },
+      relations: ['courses'],
+    });
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${studentId} not found`);
+    }
+
+    const course = await this.courseRepository.findOne({
+      where: { id: courseId.toString() },
+    });
+    if (!course) {
+      throw new NotFoundException(`Course with ID ${courseId} not found`);
+    }
+
+    // Check if the student is enrolled in the course
+    if (!student.courses.some((c) => c.id === course.id)) {
+      throw new BadRequestException(
+        `Student with ID ${studentId} is not enrolled in course with ID ${courseId}`,
+      );
+    }
+
+    student.courses = student.courses.filter((c) => c.id !== course.id);
+    return this.studentRepository.save(student);
   }
 }

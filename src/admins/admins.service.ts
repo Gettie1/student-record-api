@@ -2,20 +2,20 @@ import { Body, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './entities/admin.entity';
-import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { Profile } from 'src/profiles/entities/profile.entity';
 
 @Injectable()
 export class AdminsService {
   constructor(
     @InjectRepository(Admin) private adminsRepository: Repository<Admin>,
-    @InjectRepository(AdminProfile)
-    private adminProfilesRepository: Repository<AdminProfile>,
+    @InjectRepository(Profile)
+    private adminProfilesRepository: Repository<Profile>,
   ) {}
   async create(createAdminDto: CreateAdminDto) {
     const existingAdmin = await this.adminsRepository.findOne({
-      where: { admin_id: String(createAdminDto.admin_id) },
+      where: { id: String(createAdminDto.admin_id) },
     });
     if (existingAdmin) {
       throw new NotFoundException(
@@ -27,18 +27,18 @@ export class AdminsService {
       admin_id: String(createAdminDto.admin_id),
     });
   }
-  async findAll(name?: string) {
+  async findAll(email?: string) {
     try {
-      if (name) {
+      if (email) {
         return await this.adminsRepository.find({
           where: {
-            adminProfile: { first_name: name },
+            email: email,
           },
-          relations: ['adminProfile'],
+          relations: ['profile'],
         });
       }
       return await this.adminsRepository.find({
-        relations: ['adminProfile'],
+        relations: ['profile'],
       });
     } catch (error) {
       console.error('Error fetching admins:', error);
@@ -49,8 +49,8 @@ export class AdminsService {
   async findOne(id: number) {
     try {
       const admin = await this.adminsRepository.findOne({
-        where: { admin_id: String(id) },
-        relations: ['adminProfile'],
+        where: { id: String(id) },
+        relations: ['profile'],
       });
       if (!admin) {
         throw new NotFoundException(`Admin with ID ${id} not found`);
@@ -71,15 +71,12 @@ export class AdminsService {
           ? String(updateAdminDto.admin_id)
           : undefined,
     };
-    return await this.adminsRepository.update(
-      { admin_id: String(id) },
-      dtoToUpdate,
-    );
+    return await this.adminsRepository.update({ id: String(id) }, dtoToUpdate);
   }
 
   async remove(id: number) {
     return await this.adminsRepository.delete({
-      admin_id: String(id),
+      id: String(id),
     });
   }
 }

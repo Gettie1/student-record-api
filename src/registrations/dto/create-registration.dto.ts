@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class CreateRegistrationDto {
   @IsString()
   @IsNotEmpty()
-  studentId: string;
+  id: string;
   @IsString()
   @IsNotEmpty()
   courseId: string;

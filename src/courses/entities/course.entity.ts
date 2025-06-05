@@ -1,4 +1,5 @@
 // import { isNotEmpty } from "class-validator";
+import { Subject } from 'src/subjects/entities/subject.entity';
 import { CourseEnrollment } from 'src/course-enrollments/entities/course-enrollment.entity';
 import { Student } from 'src/student/entities/student.entity/student.entity';
 import {
@@ -7,11 +8,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   OneToMany,
+  Relation,
 } from 'typeorm';
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn()
-  courseId: string;
+  id: string;
   @Column({ nullable: false, unique: true })
   courseName: string;
   @Column({ unique: true, nullable: false })
@@ -34,10 +36,14 @@ export class Course {
   status: string;
 
   @ManyToMany(() => Student, (student) => student.courses)
-  students: Student[];
+  students: Relation<Student[]>;
   @OneToMany(
     () => CourseEnrollment,
     (courseEnrollment) => courseEnrollment.course,
   )
   courseEnrollments: CourseEnrollment[]; // Assuming a course can have multiple enrollments
+  @OneToMany(() => Subject, (subject) => subject.course, {
+    onDelete: 'CASCADE',
+  })
+  subjects: Subject[]; // Assuming a course can have multiple subjects
 }

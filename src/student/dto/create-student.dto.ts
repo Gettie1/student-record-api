@@ -47,4 +47,7 @@ export class CreateStudentDto {
   // @IsOptional()
   @IsString()
   profilePicture: string;
+
+  @IsString()
+  profileId: string;
 }

@@ -19,8 +19,10 @@ export class CoursesService {
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
+    // Ensure CreateCourseDto and Course entity have a 'name' property
     const existingCourse = await this.courseRepository.findOne({
       where: { courseName: createCourseDto.courseName },
+      relations: ['students'],
     });
     if (existingCourse) {
       throw new Error(
@@ -38,15 +40,36 @@ export class CoursesService {
     return courses;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: number) {
+    const course = await this.courseRepository.findOne({
+      where: { id: id.toString() },
+      relations: ['students'],
+    });
+    if (!course) {
+      throw new Error(`Course with ID ${id} not found`);
+    }
+    return course;
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return updateCourseDto;
+  async update(id: number, updateCourseDto: UpdateCourseDto) {
+    const course = await this.courseRepository.findOne({
+      where: { id: id.toString() },
+      relations: ['students'],
+    });
+    if (!course) {
+      throw new Error(`Course with ID ${id} not found`);
+    }
+    // Update the course with the new data
+    Object.assign(course, updateCourseDto);
+    return this.courseRepository.save(course);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} course`;
+    return this.courseRepository.delete(id).then((result) => {
+      if (result.affected === 0) {
+        throw new Error(`Course with ID ${id} not found`);
+      }
+      return `Course with ID ${id} has been removed successfully`;
+    });
   }
 }

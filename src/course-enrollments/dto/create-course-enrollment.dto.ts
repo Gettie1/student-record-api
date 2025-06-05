@@ -4,14 +4,16 @@
 // enroll_date	DATETIME	Date the student enrolled in the course
 // grade	VARCHAR	Grade or performance in the course
 // status	VARCHAR	Enrollment status (active/inactive)
+import { Type } from 'class-transformer';
 import { IsInt, IsOptional, IsString, IsDate } from 'class-validator';
 export class CreateCourseEnrollmentDto {
   @IsInt()
-  student_id: number;
+  id: number;
 
   @IsInt()
   course_id: number;
 
+  @Type(() => Date)
   @IsDate()
   enroll_date: Date;
 

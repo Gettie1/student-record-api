@@ -10,9 +10,9 @@ POST {{url}}/students
 Content-Type: application/json
 
 {
- "firstName": "Janet",
+ "firstName": "Joel",
  "lastName": "Doe",
- "email": "janet@gmail.com",
+ "email": "j@gmail.com",
  "dateOfBirth": "2000-01-01",
  "gender":"female",
  "phoneNumber": "123-456-7890",
@@ -22,14 +22,18 @@ Content-Type: application/json
  "city": "Los Angeles",
  "enrollmentDate": "2023-09-01",
  "status": "active",
- "profilePicture": "http://example.com/profile.jpg"
+ "profilePicture": "http://example.com/profile.jpg",
+ "profileId": "1"
 }
 
 ### Get a student by ID
 GET {{url}}/students/1/registrations
 
 ###Get students by course
-GET {{url}}/students/1/courses
+GET {{url}}/students/1/course-enrollments
+
+### get students by profile
+GET {{url}}/students/1/profiles
 
 ### Get student by name
 GET {{url}}/students?email=janet@gmail.com
@@ -49,6 +53,86 @@ Content-Type: application/json
 ### Delete a student
 DELETE {{url}}/students/3
 
+### Course-enrollment
+### Get all course enrollments
+GET {{url}}/course-enrollments
+### Create a new course enrollment
+POST {{url}}/course-enrollments
+Content-Type: application/json
+
+{
+ "id": 1,
+ "course_id": 1,
+ "enroll_date": "2023-09-01",
+ "grade": "A",
+ "status": "active"
+}
+### Get course enrollment by ID
+GET {{url}}/course-enrollments/7
+### update a course enrollment
+PATCH {{url}}/course-enrollments/7
+
+Content-Type: application/json
+
+{
+ "grade": "B+",
+ "status": "completed"
+}
+### Delete a course enrollment
+DELETE {{url}}/course-enrollments/7
+### CACHE
+POST {{url}}/cache
+Content-Type: application/json
+
+{
+  "key": "student:1",
+  "value": "example_value",
+  "ttl": 40
+}
+### Get cached keys
+POST {{url}}/cache
+Content-Type: application/json
+
+{
+ "key": "student:2",
+ "value": "example_value2"
+}
+### Get cached value
+GET {{url}}/cache/student:1
+### Delete cached value
+DELETE {{url}}/cache/student:1
+
+### PROFILES
+### Get all profiles  
+GET {{url}}/profiles
+### Create a new profile
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+ "firstName": "John",
+ "lastName": "Doe",
+  "email": "john@gmail.com",
+  "password": "John123"
+}
+### Get profile by ID
+GET {{url}}/profiles/1
+### Get profile by name
+GET {{url}}/profiles?firstName=John
+### Update a profile
+PATCH {{url}}/profiles/1
+Content-Type: application/json
+
+{
+ "firstName": "John",
+ "lastName": "Smith",
+ "email": "smith@gmail.com",
+  "password": "John1234"
+}
+### Delete a profile
+DELETE {{url}}/profiles/1
+
+
 ### ADMIN
 
 ### Get all admins
@@ -66,6 +150,7 @@ Content-Type: application/json
  "lastLogin": "2023-10-01T12:00:00Z",
  "isSuperAdmin": true
 }
+
 
 ### Get admin by id
 GET {{url}}/admins/4
@@ -125,9 +210,9 @@ POST {{url}}/courses
 Content-Type: application/json
 
 {
-  "courseName": "Introduction to Programming",    
- "courseCode": "CS101",
- "description": "A beginner's course in programming.",
+  "courseName": "web development",    
+ "courseCode": "CS102",
+ "description": "A beginner's course  in tech.",
  "credits": 3,
  "status": "active",
  "createdAt": "2023-09-01T00:00:00Z",
@@ -138,7 +223,7 @@ GET {{url}}/courses/1
 ### Get course by name
 GET {{url}}/courses?courseName=Introduction%20to%20Programming
 ### Update a course
-PATCH {{url}}/courses/1
+PATCH {{url}}/courses/3
 Content-Type: application/json
 
 {
@@ -147,37 +232,8 @@ Content-Type: application/json
 }
 ### Delete a course
 DELETE {{url}}/courses/1
-### Enrollments
-### Get all enrollments
- 
-GET {{url}}/enrollments
-### Create a new enrollment
-POST {{url}}/enrollments
-Content-Type: application/json
 
-{
- "studentId": 12345,
- "courseId": 1,
- "enrollmentDate": "2023-09-01",
- "status": "active"
-}
 
-### Get enrollment by ID
-GET {{url}}/enrollments/1   
-### Get enrollment by student ID
-GET {{url}}/enrollments?studentId=12345
-### Get enrollment by course ID
-GET {{url}}/enrollments?courseId=1
-
-## Update an enrollment
-PATCH {{url}}/enrollments/1
-Content-Type: application/json
-
-{
- "status": "completed"
-}
-### Delete an enrollment
-DELETE {{url}}/enrollments/1
 ### Registrations
 ### Get all registrations
 GET {{url}}/registrations
@@ -186,7 +242,7 @@ POST {{url}}/registrations
 Content-Type: application/json
 
 {
- "studentId": "1",
+ "id": "1",
  "courseId": "1",
  "sessionId": "2023-Fall",
  "subjectId": "CS101",
@@ -195,8 +251,6 @@ Content-Type: application/json
 }
 ### Get registration by ID
 GET {{url}}/registrations/1
-### Get registration by student ID
-GET {{url}}/registrations?studentId=12345
 ### Get registration by course ID
 GET {{url}}/registrations?courseId=1
 ### Update a registration
@@ -208,6 +262,8 @@ Content-Type: application/json
 }
 ### Delete a registration
 DELETE {{url}}/registrations/1
+
+
 ### Subjects
 ### Get all subjects
 GET {{url}}/subjects

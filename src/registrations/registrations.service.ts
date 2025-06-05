@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
@@ -18,7 +18,7 @@ export class RegistrationsService {
     createRegistrationDto: CreateRegistrationDto,
   ): Promise<Registration> {
     const student = await this.studentRepository.findOne({
-      where: { studentId: createRegistrationDto.studentId },
+      where: { id: createRegistrationDto.id },
     });
     if (!student) {
       throw new Error('Student not found');
@@ -36,7 +36,7 @@ export class RegistrationsService {
     if (search) {
       return this.registrationRepository.find({
         where: [
-          { studentId: search },
+          { id: search },
           { courseId: search },
           { sessionId: search },
           { subjectId: search },
@@ -56,7 +56,7 @@ export class RegistrationsService {
 
   async findOne(id: number): Promise<Registration> {
     const registration = await this.registrationRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
     });
     if (!registration) {
       throw new Error(`Registration with ID ${id} not found`);
@@ -69,7 +69,7 @@ export class RegistrationsService {
     updateRegistrationDto: UpdateRegistrationDto,
   ): Promise<UpdateRegistrationDto> {
     const registration = await this.registrationRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
     });
     if (!registration) {
       throw new Error(`Registration with ID ${id} not found`);
@@ -77,14 +77,13 @@ export class RegistrationsService {
     return updateRegistrationDto;
   }
 
-  async remove(id: number): Promise<string> {
+  async remove(id: number): Promise<Registration> {
     const registration = await this.registrationRepository.findOne({
-      where: { studentId: id.toString() },
+      where: { id: id.toString() },
     });
     if (!registration) {
-      throw new Error(`Registration with ID ${id} not found`);
+      throw new NotFoundException(`Registration with ID ${id} not found`);
     }
-    await this.registrationRepository.remove(registration);
-    return `This action removes a #${id} registration`;
+    return await this.registrationRepository.remove(registration);
   }
 }

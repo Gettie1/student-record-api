@@ -6,11 +6,11 @@ import {
   Relation,
   OneToOne,
 } from 'typeorm';
-import { AdminProfile } from '../../admin-profiles/entities/admin-profile.entity';
+import { Profile } from '../../profiles/entities/profile.entity';
 @Entity()
 export class Admin {
   @PrimaryGeneratedColumn()
-  admin_id: string;
+  id: string;
   @Column()
   username: string;
   @Column()
@@ -28,10 +28,10 @@ export class Admin {
   @Column({ default: false })
   isSuperAdmin: boolean;
 
-  @OneToOne(() => AdminProfile, (adminProfile) => adminProfile.admin, {
+  @OneToOne(() => Profile, (profile) => profile.admin, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  adminProfile: Relation<AdminProfile>;
+  profile: Relation<Profile>;
 }

@@ -3,7 +3,7 @@ import { Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm';
 @Entity()
 export class Registration {
   @PrimaryColumn()
-  studentId: string;
+  id: string;
   @Column()
   courseId: string;
   @Column()
