@@ -1,10 +1,13 @@
 @url=http://localhost:8000
 
 ### HTTP server configuration
+################
+### STUDENTS ###
+################
+### Get All Students
 GET {{url}}/students
 
 ### Create a new student
-
 
 POST {{url}}/students
 Content-Type: application/json
@@ -12,7 +15,7 @@ Content-Type: application/json
 {
  "firstName": "Joel",
  "lastName": "Doe",
- "email": "j@gmail.com",
+ "email": "wwe@gmail.com",
  "dateOfBirth": "2000-01-01",
  "gender":"female",
  "phoneNumber": "123-456-7890",
@@ -31,15 +34,11 @@ GET {{url}}/students/1/registrations
 
 ###Get students by course
 GET {{url}}/students/1/course-enrollments
+### GET students by course
+GET {{url}}/students/1/courses
 
 ### get students by profile
 GET {{url}}/students/1/profiles
-
-### Get student by name
-GET {{url}}/students?email=janet@gmail.com
-### Get student by registration number
-GET {{url}}/students/1/email=john@gmail.com
-### Get student by course
 ### Update a student
 PUT {{url}}/students/1
 Content-Type: application/json
@@ -51,9 +50,10 @@ Content-Type: application/json
  "dateOfBirth": "2000-01-11"
 }
 ### Delete a student
-DELETE {{url}}/students/3
-
-### Course-enrollment
+DELETE {{url}}/students/5
+#########################
+### Course-enrollment ###
+#########################
 ### Get all course enrollments
 GET {{url}}/course-enrollments
 ### Create a new course enrollment
@@ -68,9 +68,9 @@ Content-Type: application/json
  "status": "active"
 }
 ### Get course enrollment by ID
-GET {{url}}/course-enrollments/7
+GET {{url}}/course-enrollments/3
 ### update a course enrollment
-PATCH {{url}}/course-enrollments/7
+PATCH {{url}}/course-enrollments/2
 
 Content-Type: application/json
 
@@ -79,30 +79,11 @@ Content-Type: application/json
  "status": "completed"
 }
 ### Delete a course enrollment
-DELETE {{url}}/course-enrollments/7
-### CACHE
-POST {{url}}/cache
-Content-Type: application/json
+DELETE {{url}}/course-enrollments/2
 
-{
-  "key": "student:1",
-  "value": "example_value",
-  "ttl": 40
-}
-### Get cached keys
-POST {{url}}/cache
-Content-Type: application/json
-
-{
- "key": "student:2",
- "value": "example_value2"
-}
-### Get cached value
-GET {{url}}/cache/student:1
-### Delete cached value
-DELETE {{url}}/cache/student:1
-
-### PROFILES
+################
+### PROFILES ###
+################
 ### Get all profiles  
 GET {{url}}/profiles
 ### Create a new profile
@@ -112,7 +93,7 @@ Content-Type: application/json
 {
  "firstName": "John",
  "lastName": "Doe",
-  "email": "john@gmail.com",
+  "email": "doe@gmail.com",
   "password": "John123"
 }
 ### Get profile by ID
@@ -120,7 +101,7 @@ GET {{url}}/profiles/1
 ### Get profile by name
 GET {{url}}/profiles?firstName=John
 ### Update a profile
-PATCH {{url}}/profiles/1
+PATCH {{url}}/profiles/2
 Content-Type: application/json
 
 {
@@ -132,8 +113,9 @@ Content-Type: application/json
 ### Delete a profile
 DELETE {{url}}/profiles/1
 
-
-### ADMIN
+#############
+### ADMIN ###
+#############
 
 ### Get all admins
 
@@ -143,17 +125,17 @@ POST {{url}}/admins
 Content-Type: application/json
 
 {
- "admin_id": 6,
- "username": "sam",
- "password": "Samuel123",
- "email": "sam@gmail.com",
+ "admin_id": 8,
+ "username": "zk",
+ "password": "zackl123",
+ "email": "z@gmail.com",
  "lastLogin": "2023-10-01T12:00:00Z",
  "isSuperAdmin": true
 }
 
 
 ### Get admin by id
-GET {{url}}/admins/4
+GET {{url}}/admins/2
 
 ### Get admin by username
 GET {{url}}/admins?username=sam
@@ -163,8 +145,8 @@ PATCH  {{url}}/admins/5
 Content-Type: application/json
 
 {
- "username": "Getrude",
- "email": "getrude@gmail.com"
+ "username": "Zack",
+ "email": "zack@gmail.com"
 }
 ### Delete an admin
 DELETE {{url}}/admins/4
@@ -201,8 +183,9 @@ Content-Type: application/json
 
 ### Delete an admin profile
 DELETE {{url}}/admin-profiles/1
-
-### Courses
+###############
+### Courses ###
+###############
 ### Get all courses 
 GET {{url}}/courses
 ### Create a new course
@@ -232,9 +215,22 @@ Content-Type: application/json
 }
 ### Delete a course
 DELETE {{url}}/courses/1
+#####################
+### AUTHENTICATION ##
+#####################
+### Register a new user
+POST {{url}}/auth/signUp
+### SignIn
+POST {{url}}/auth/signIn
+Content-Type: application/json
 
-
-### Registrations
+{
+ "email": "jule@gmail.com",
+ "password": "Jule123"
+}
+#####################
+### Registrations ###
+#####################
 ### Get all registrations
 GET {{url}}/registrations
 ### Create a new registration
@@ -263,8 +259,9 @@ Content-Type: application/json
 ### Delete a registration
 DELETE {{url}}/registrations/1
 
-
-### Subjects
+#################
+### Subjects ###
+#################
 ### Get all subjects
 GET {{url}}/subjects
 ### Create a new subject
@@ -293,7 +290,9 @@ Content-Type: application/json
 }
 ### Delete a subject
 DELETE {{url}}/subjects/1
-### Sessions
+#################
+### Sessions ####
+#################
 ### Get all sessions
 GET {{url}}/sessions
 ### Create a new session

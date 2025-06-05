@@ -11,7 +11,7 @@ import { Profile } from 'src/profiles/entities/profile.entity';
   imports: [
     DatabaseModule,
     TypeOrmModule.forFeature([Student, Course, Profile]),
-  ], // Add your entities here
+  ],
   providers: [StudentService],
   controllers: [StudentController],
 })

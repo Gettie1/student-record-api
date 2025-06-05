@@ -12,7 +12,6 @@ import { CourseEnrollmentsModule } from './course-enrollments/course-enrollments
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { ReportsModule } from './reports/reports.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { CacheMeModule } from './cache-me/cache-me.module';
 import * as redisStore from 'cache-manager-redis-store';
 // import { AuthModule } from './auth/auth.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -52,7 +51,6 @@ import { ProfilesModule } from './profiles/profiles.module';
     CourseEnrollmentsModule,
     FeedbacksModule,
     ReportsModule,
-    CacheMeModule,
     CacheModule.registerAsync({
       isGlobal: true,
       useFactory: () => ({
@@ -93,5 +91,4 @@ export class AppModule implements NestModule {
         'cache-me',
       );
   }
-  // This method can be used to configure middleware or other global settings
 }

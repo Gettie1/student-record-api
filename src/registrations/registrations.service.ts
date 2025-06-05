@@ -23,8 +23,6 @@ export class RegistrationsService {
     if (!student) {
       throw new Error('Student not found');
     }
-    // Add logic to create and save the registration here
-    // Example:
     const registration = this.registrationRepository.create({
       ...createRegistrationDto,
       student,

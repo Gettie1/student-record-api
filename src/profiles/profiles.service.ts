@@ -18,14 +18,14 @@ export class ProfilesService {
   }
   private excludePassword(profile: Profile): Partial<Profile> {
     // Exclude 'password' and 'hashedRefreshToken' from the returned object
-    const { password, hashedRefreshToken, ...profileWithoutPassword } = profile;
+    const profileWithoutPassword = profile;
     return profileWithoutPassword;
   }
   async create(createProfileDto: CreateProfileDto): Promise<Partial<Profile>> {
     // Check if a profile with the same email already exists
     const existingProfile = await this.profileRepository.findOne({
       where: { email: createProfileDto.email },
-      select: ['id'], // Only select the id to avoid loading the entire profile
+      select: ['id'],
     });
     if (existingProfile) {
       throw new Error(
@@ -37,7 +37,7 @@ export class ProfilesService {
       lastName: createProfileDto.lastName,
       email: createProfileDto.email,
       password: await this.hashData(createProfileDto.password), // Hash the password
-      role: createProfileDto.role, // Default to GUEST if not provided
+      role: createProfileDto.role,
     };
     // Create a new Profile entity
     const savedProfile = await this.profileRepository
@@ -58,7 +58,7 @@ export class ProfilesService {
         where: {
           email: email,
         },
-        relations: ['student'], // Ensure to load the student relation
+        relations: ['student'],
       });
     } else {
       profiles = await this.profileRepository.find({

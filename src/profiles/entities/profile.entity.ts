@@ -10,7 +10,6 @@ import { Admin } from 'src/admins/entities/admin.entity';
 
 export enum Role {
   STUDENT = 'student',
-  FACULTY = 'faculty',
   ADMIN = 'admin',
   GUEST = 'guest',
 }

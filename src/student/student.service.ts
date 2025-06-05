@@ -69,10 +69,7 @@ export class StudentService {
     if (search) {
       return this.studentRepository.find({
         where: [
-          { email: search },
-          {
-            phoneNumber: search,
-          },
+          { firstName: search },
           {
             enrollmentDate: isNaN(Date.parse(search))
               ? undefined
