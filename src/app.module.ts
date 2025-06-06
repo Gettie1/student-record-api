@@ -16,7 +16,7 @@ import * as redisStore from 'cache-manager-redis-store';
 // import { AuthModule } from './auth/auth.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 // import Keyv from 'keyv';
-import { LoggerMiddleware } from './logger.module';
+import { LoggerMiddleware } from './logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
@@ -72,23 +72,6 @@ import { ProfilesModule } from './profiles/profiles.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes(
-        'student',
-        'admins',
-        'admin-profiles',
-        'courses',
-        'subjects',
-        'sessions',
-        'registrations',
-        'admin-logins',
-        'password-changes',
-        'course-enrollments',
-        'audit-logs',
-        'feedbacks',
-        'reports',
-        'cache-me',
-      );
+    consumer.apply(LoggerMiddleware).forRoutes('*'); // Apply the LoggerMiddleware to all routes
   }
 }
