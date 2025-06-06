@@ -18,6 +18,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 // import Keyv from 'keyv';
 import { LoggerMiddleware } from './logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
+import { SeedDataModule } from './seed-data/seed-data.module';
+import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [
@@ -61,6 +63,8 @@ import { ProfilesModule } from './profiles/profiles.module';
     }),
     // AuthModule,
     ProfilesModule,
+    SeedDataModule,
+    LogsModule,
   ],
   controllers: [],
   providers: [

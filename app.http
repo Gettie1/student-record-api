@@ -51,7 +51,18 @@ Content-Type: application/json
 }
 ### Delete a student
 DELETE {{url}}/students/5
-#########################
+
+####################
+### SEEDING DATA ###
+####################
+### Seed the database with initial data
+POST {{url}}/seed-data
+Content-Type: application/json
+
+{
+ "seedType": "initial"
+}
+
 ### Course-enrollment ###
 #########################
 ### Get all course enrollments

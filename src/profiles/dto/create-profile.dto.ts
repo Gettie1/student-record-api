@@ -21,5 +21,5 @@ export class CreateProfileDto {
   @IsEnum(Role, {
     message: 'Role must be one of the following: student, user, administrator',
   })
-  role: Role = Role.GUEST; // Default role set to GUEST
+  role: Role = Role.STUDENT; // Default role set to GUEST
 }

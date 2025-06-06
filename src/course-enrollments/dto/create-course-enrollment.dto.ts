@@ -10,7 +10,7 @@ export class CreateCourseEnrollmentDto {
   @IsInt()
   id: number;
 
-  @IsInt()
+  @IsString()
   course_id: number;
 
   @Type(() => Date)

@@ -47,6 +47,8 @@ export class Student {
   status: string;
   @Column({ nullable: false })
   profilePicture: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -56,7 +58,7 @@ export class Student {
 
   @OneToOne(() => Profile, (profile) => profile.student)
   @JoinColumn()
-  profile: Relation<Profile[]>;
+  profile: Relation<Profile>;
   @OneToMany(() => Registration, (registration) => registration.student)
   registrations: Registration[];
   @OneToMany(
