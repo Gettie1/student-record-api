@@ -13,13 +13,15 @@ import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { ReportsModule } from './reports/reports.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store';
-// import { AuthModule } from './auth/auth.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 // import Keyv from 'keyv';
 import { LoggerMiddleware } from './logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
-import { SeedDataModule } from './seed-data/seed-data.module';
+// import { SeedDataModule } from './seed-data/seed-data.module';
 import { LogsModule } from './logs/logs.module';
+// import { AuthGuard } from '@nestjs/passport';
+import { AtGuard } from './auth/guards/at.guard';
 
 @Module({
   imports: [
@@ -61,9 +63,9 @@ import { LogsModule } from './logs/logs.module';
         ttl: 60 * 60, // Default TTL of 1 hour
       }),
     }),
-    // AuthModule,
+    AuthModule,
     ProfilesModule,
-    SeedDataModule,
+    // SeedDataModule,
     LogsModule,
   ],
   controllers: [],
@@ -71,6 +73,10 @@ import { LogsModule } from './logs/logs.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AtGuard, // global guard for access tokens for all routes
     },
   ],
 })

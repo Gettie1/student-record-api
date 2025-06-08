@@ -1,12 +1,15 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { allExceptionsFilter } from './all-exceptions.filter';
+import { AtGuard } from './auth/guards/at.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const reflector = app.get(Reflector);
+  app.useGlobalGuards(new AtGuard(reflector)); // 👈 this is key
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

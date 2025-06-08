@@ -1,6 +1,28 @@
 @url=http://localhost:8000
 
 ### HTTP server configuration
+#####################
+### AUTHENTICATION ##
+#####################
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWpAZ21haWwuY29tIiwiaWF0IjoxNzQ5Mzg2NDk4LCJleHAiOjE3NDkzODczOTh9.nM_xKo7R9JkIwsK6Zi6hCHqp1H3DimLnIRo2-vr3ubM
+##"$2b$10$p03iU8a.zcVUQnfpdYyG8.inQEoCcBr028c/zpxNN8MWU.0iey9IK"
+###"$2b$10$vC6CJYOEa9KJ2Lwg8BaT2O.MFPOCXpM4vewHRpTCs58MRYuCZa9pi"
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWpAZ21haWwuY29tIiwiaWF0IjoxNzQ5Mzg2NDk4LCJleHAiOjE3NDk5OTEyOTh9.9O6HL9K35cPTntiDrUnCBk-SFw5iVA3lzbsg91En2Co
+
+### SignIn a new user
+### SignIn
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "mj@gmail.com",
+ "password": "John123"
+}
+### SignOut a new user
+GET {{url}}/auth/signout/1
+### Refesh token
+GET {{url}}/auth/refreshTokens?id=1
+Authorization: Bearer {{refreshToken}}
 ################
 ### STUDENTS ###
 ################
@@ -62,7 +84,7 @@ Content-Type: application/json
 {
  "seedType": "initial"
 }
-
+#########################
 ### Course-enrollment ###
 #########################
 ### Get all course enrollments
@@ -97,14 +119,15 @@ DELETE {{url}}/course-enrollments/2
 ################
 ### Get all profiles  
 GET {{url}}/profiles
+Authorization: Bearer {{accessToken}}
 ### Create a new profile
 POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "John",
+ "firstName": "June",
  "lastName": "Doe",
-  "email": "doe@gmail.com",
+  "email": "june@gmail.com",
   "password": "John123"
 }
 ### Get profile by ID
@@ -161,39 +184,6 @@ Content-Type: application/json
 }
 ### Delete an admin
 DELETE {{url}}/admins/4
-
-### AdminsProfile
-### Get all admin profiles
-GET {{url}}/admins/profiles
-### Create a new admin profile
-POST {{url}}/admin-profiles
-Content-Type: application/json
-
-{
- "firstName": "Sam",
- "lastName": "Smith",
- "phoneNumber": "123-456-7890",
- "address": "123 Admin St, Admin City, USA",
- "profilePicture": "http://example.com/admin_profile.jpg"
-}
-
-### Get admin profile by ID
-GET {{url}}/admin-profiles/1
-
-### Get admin profile by name
-GET {{url}}/admin-profiles?firstName=Sam
-
-### Update an admin profile
-PATCH {{url}}/admin-profiles/1
-Content-Type: application/json
-
-{
- "phoneNumber": "987-654-3210",
- "address": "456 Admin Ave, Admin City, USA"
-}
-
-### Delete an admin profile
-DELETE {{url}}/admin-profiles/1
 ###############
 ### Courses ###
 ###############
@@ -226,19 +216,6 @@ Content-Type: application/json
 }
 ### Delete a course
 DELETE {{url}}/courses/1
-#####################
-### AUTHENTICATION ##
-#####################
-### Register a new user
-POST {{url}}/auth/signUp
-### SignIn
-POST {{url}}/auth/signIn
-Content-Type: application/json
-
-{
- "email": "jule@gmail.com",
- "password": "Jule123"
-}
 #####################
 ### Registrations ###
 #####################

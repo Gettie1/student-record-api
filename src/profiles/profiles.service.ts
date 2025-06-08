@@ -18,7 +18,7 @@ export class ProfilesService {
   }
   private excludePassword(profile: Profile): Partial<Profile> {
     // Exclude 'password' and 'hashedRefreshToken' from the returned object
-    const profileWithoutPassword = profile;
+    const { password, hashedRefreshToken, ...profileWithoutPassword } = profile;
     return profileWithoutPassword;
   }
   async create(createProfileDto: CreateProfileDto): Promise<Partial<Profile>> {
