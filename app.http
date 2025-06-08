@@ -4,10 +4,9 @@
 #####################
 ### AUTHENTICATION ##
 #####################
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWpAZ21haWwuY29tIiwiaWF0IjoxNzQ5Mzg2NDk4LCJleHAiOjE3NDkzODczOTh9.nM_xKo7R9JkIwsK6Zi6hCHqp1H3DimLnIRo2-vr3ubM
-##"$2b$10$p03iU8a.zcVUQnfpdYyG8.inQEoCcBr028c/zpxNN8MWU.0iey9IK"
-###"$2b$10$vC6CJYOEa9KJ2Lwg8BaT2O.MFPOCXpM4vewHRpTCs58MRYuCZa9pi"
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWpAZ21haWwuY29tIiwiaWF0IjoxNzQ5Mzg2NDk4LCJleHAiOjE3NDk5OTEyOTh9.9O6HL9K35cPTntiDrUnCBk-SFw5iVA3lzbsg91En2Co
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiakBnbWFpbC5jb20iLCJpYXQiOjE3NDkzOTI2ODIsImV4cCI6MTc0OTM5MzU4Mn0.QWeRlp14UC4QK-9wN47VCarReuNr3jvuNyeHWQ8SJPs
+
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiakBnbWFpbC5jb20iLCJpYXQiOjE3NDkzOTI2ODIsImV4cCI6MTc0OTk5NzQ4Mn0.q0zkHB9ETxBunnGnAWpvs4JYwBvmkw1v7f8doe0bBEs
 
 ### SignIn a new user
 ### SignIn
@@ -15,24 +14,25 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "mj@gmail.com",
+ "email": "j@gmail.com",
  "password": "John123"
 }
 ### SignOut a new user
 GET {{url}}/auth/signout/1
 ### Refesh token
-GET {{url}}/auth/refreshTokens?id=1
+GET {{url}}/auth/refreshTokens?id=3
 Authorization: Bearer {{refreshToken}}
 ################
 ### STUDENTS ###
 ################
 ### Get All Students
 GET {{url}}/students
-
+Authorization: Bearer {{accessToken}}
 ### Create a new student
 
 POST {{url}}/students
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "firstName": "Joel",
@@ -53,17 +53,19 @@ Content-Type: application/json
 
 ### Get a student by ID
 GET {{url}}/students/1/registrations
-
+Authorization: Bearer {{accessToken}}
 ###Get students by course
 GET {{url}}/students/1/course-enrollments
 ### GET students by course
 GET {{url}}/students/1/courses
-
+Authorization: Bearer {{accessToken}}
 ### get students by profile
 GET {{url}}/students/1/profiles
+Authorization: Bearer {{accessToken}}
 ### Update a student
 PUT {{url}}/students/1
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "firstName": "Janet",
@@ -73,6 +75,7 @@ Content-Type: application/json
 }
 ### Delete a student
 DELETE {{url}}/students/5
+Authorization: Bearer {{accessToken}}
 
 ####################
 ### SEEDING DATA ###
@@ -89,19 +92,22 @@ Content-Type: application/json
 #########################
 ### Get all course enrollments
 GET {{url}}/course-enrollments
+Authorization: Bearer {{accessToken}}
 ### Create a new course enrollment
 POST {{url}}/course-enrollments
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "id": 1,
- "course_id": 1,
+ "course_id": "1",
  "enroll_date": "2023-09-01",
  "grade": "A",
  "status": "active"
 }
 ### Get course enrollment by ID
 GET {{url}}/course-enrollments/3
+
 ### update a course enrollment
 PATCH {{url}}/course-enrollments/2
 
@@ -127,16 +133,19 @@ Content-Type: application/json
 {
  "firstName": "June",
  "lastName": "Doe",
-  "email": "june@gmail.com",
+  "email": "j@gmail.com",
   "password": "John123"
 }
 ### Get profile by ID
 GET {{url}}/profiles/1
+Authorization: Bearer {{accessToken}}
 ### Get profile by name
 GET {{url}}/profiles?firstName=John
+Authorization: Bearer {{accessToken}}
 ### Update a profile
 PATCH {{url}}/profiles/2
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "firstName": "John",
@@ -146,6 +155,7 @@ Content-Type: application/json
 }
 ### Delete a profile
 DELETE {{url}}/profiles/1
+Authorization: Bearer {{accessToken}}
 
 #############
 ### ADMIN ###
@@ -154,44 +164,53 @@ DELETE {{url}}/profiles/1
 ### Get all admins
 
 GET {{url}}/admins
+Authorization: Bearer {{accessToken}}
 ### create a new admin
 POST {{url}}/admins
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
- "admin_id": 8,
+ "admin_id": 7,
  "username": "zk",
  "password": "zackl123",
- "email": "z@gmail.com",
+ "email": "zack@gmail.com",
  "lastLogin": "2023-10-01T12:00:00Z",
  "isSuperAdmin": true
 }
 
 
 ### Get admin by id
-GET {{url}}/admins/2
+GET {{url}}/admins/1
+Authorization: Bearer {{accessToken}}
 
 ### Get admin by username
 GET {{url}}/admins?username=sam
+Authorization: Bearer {{accessToken}}
 
 ### Update an admin
-PATCH  {{url}}/admins/5
+PATCH  {{url}}/admins/1
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "username": "Zack",
- "email": "zack@gmail.com"
+ "email": "za@gmail.com"
 }
 ### Delete an admin
 DELETE {{url}}/admins/4
+Authorization: Bearer {{accessToken}}
+
 ###############
 ### Courses ###
 ###############
 ### Get all courses 
 GET {{url}}/courses
+Authorization: Bearer {{accessToken}}
 ### Create a new course
 POST {{url}}/courses
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "courseName": "web development",    
@@ -204,11 +223,14 @@ Content-Type: application/json
 }
 ### Get course by ID
 GET {{url}}/courses/1
+Authorization: Bearer {{accessToken}}
 ### Get course by name
 GET {{url}}/courses?courseName=Introduction%20to%20Programming
+Authorization: Bearer {{accessToken}}
 ### Update a course
-PATCH {{url}}/courses/3
+PATCH {{url}}/courses/1
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "courseName": "Advanced Programming",
@@ -216,14 +238,17 @@ Content-Type: application/json
 }
 ### Delete a course
 DELETE {{url}}/courses/1
+Authorization: Bearer {{accessToken}}
 #####################
 ### Registrations ###
 #####################
 ### Get all registrations
 GET {{url}}/registrations
+Authorization: Bearer {{accessToken}}
 ### Create a new registration
 POST {{url}}/registrations
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "id": "1",
@@ -235,17 +260,21 @@ Content-Type: application/json
 }
 ### Get registration by ID
 GET {{url}}/registrations/1
+Authorization: Bearer {{accessToken}}
 ### Get registration by course ID
 GET {{url}}/registrations?courseId=1
+Authorization: Bearer {{accessToken}}
 ### Update a registration
 PATCH {{url}}/registrations/1
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
  "status": "approved"
 }
 ### Delete a registration
 DELETE {{url}}/registrations/1
+Authorization: Bearer {{accessToken}}
 
 #################
 ### Subjects ###

@@ -28,6 +28,17 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('courses')
     .addTag('students')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'access-token', // Name of the security scheme
+    )
     .build();
 
   const documentFactory = SwaggerModule.createDocument(app, config);

@@ -6,11 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { RegistrationsService } from './registrations.service';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AtGuard } from 'src/auth/guards/at.guard';
+@ApiTags('Registrations') // 👈 this is the tag for Swagger UI
+@ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
+@UseGuards(AtGuard) // 👈 actual runtime protection
 @Controller('registrations')
 export class RegistrationsController {
   constructor(private readonly registrationsService: RegistrationsService) {}

@@ -6,11 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
+@ApiTags('Courses') // 👈 this is used by Swagger to group the endpoints
+@ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
+@UseGuards(AtGuard) // 👈 actual runtime protection
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
