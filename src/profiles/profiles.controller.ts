@@ -45,7 +45,7 @@ export class ProfilesController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.profilesService.findOne(id.toString());
   }
-  @Roles(Role.ADMIN, Role.STUDENT)
+  @Roles(Role.ADMIN, Role.STUDENT, Role.GUEST) // 👈 this is a custom decorator to set roles for this route
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

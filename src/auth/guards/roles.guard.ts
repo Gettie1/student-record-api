@@ -3,7 +3,11 @@ import { Reflector } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Profile, Role } from 'src/profiles/entities/profile.entity';
+import { JWTPayload } from 'src/auth/strategies/at.strategy';
 
+interface RequestWithUser extends Request {
+  user?: JWTPayload;
+}
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
@@ -19,9 +23,6 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true; // No roles required, allow access
     }
-    interface RequestWithUser extends Request {
-      user?: { id: number; [key: string]: any };
-    }
     const request = context.switchToHttp().getRequest<RequestWithUser>();
     const user = request.user; // Assuming user is set in the request by a previous middleware or guard
     if (!user) {
@@ -29,7 +30,7 @@ export class RolesGuard implements CanActivate {
     }
     // Fetch the user profile from the database
     const UserProfile = await this.profileRepository.findOne({
-      where: { id: user.id },
+      where: { id: user.sub },
       select: ['id', 'role'], // Select only the necessary fields
     });
     if (!UserProfile) {
