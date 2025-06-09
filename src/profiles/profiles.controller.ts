@@ -20,10 +20,9 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
-@UseGuards(RolesGuard) // 👈 this is a custom decorator to set roles
+@UseGuards(AtGuard, RolesGuard) // 👈 this is a custom decorator to set roles
 @ApiTags('Profiles') // 👈 this is the tag for Swagger UI
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
-@UseGuards(AtGuard) // 👈 actual runtime protection
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
@@ -53,7 +52,7 @@ export class ProfilesController {
   ) {
     return this.profilesService.update(id.toString(), updateProfileDto);
   }
-  @Roles(Role.ADMIN, Role.STUDENT)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.profilesService.remove(id.toString());

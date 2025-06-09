@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Profile, Role } from 'src/profiles/entities/profile.entity';
 import { JWTPayload } from 'src/auth/strategies/at.strategy';
+import { ROLES_KEY } from 'src/auth/decorators/role.decorator';
 
 interface RequestWithUser extends Request {
   user?: JWTPayload;
@@ -16,10 +17,10 @@ export class RolesGuard implements CanActivate {
     private readonly profileRepository: Repository<Profile>,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(
-      'ROLES_KEY',
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     if (!requiredRoles) {
       return true; // No roles required, allow access
     }

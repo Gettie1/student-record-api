@@ -24,30 +24,142 @@ GET {{url}}/auth/refreshTokens?id=3
 Authorization: Bearer {{refreshToken}}
 
 ######################
-### AUTHENTICATION ###
+### AUTHORIZATION ###
 ######################
-### Get all users
+### Create student profile
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+ "firstName": "Student",
+ "lastName": "Doe",
+ "email": "student@school.com",
+  "password": "student123",
+  "role": "student"
+}
+
+### Create admin profile
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+ "firstName": "Admin",
+ "lastName": "Doe",
+ "email": "adm@school.com",
+  "password": "admin123",
+  "role": "admin"
+}
+### Create guest profile
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+ "firstName": "Guest",
+ "lastName": "Doe",
+ "email": "guest@school.com",
+  "password": "guest123",
+  "role": "guest"
+}
+
+### Get authentication tokens
+## Get student token
 POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
-  "email": "student@school.com",
-  "password": "student123"
+ "email": "student@school.com",
+ "password": "student123"
 }
+### Get admin token
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "adm@school.com",
+ "password": "admin123"
+}
+### Get guest token
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "guest@school.com",
+ "password": "guest123"
+}
+### store access token
+@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoic3R1ZGVudEBzY2hvb2wuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk0ODM3MTgsImV4cCI6MTc0OTQ4NDYxOH0.djssOEcQxG9viYHz4h6nS4Y85zYMNaJ_jo43Tj-aI3E
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6ImFkbUBzY2hvb2wuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NDg0MzQ4LCJleHAiOjE3NDk0ODUyNDh9.oxDuMHWG65E0duYzu8AbhbZemOGoD_xXfnI8R01sI0Q
+@guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
+#### get profiles by student token
+GET {{url}}/profiles
+Authorization: Bearer {{student_token}}
+### find one profile by student token
+GET {{url}}/profiles/8
+Authorization: Bearer {{student_token}}
+### update profile by student token
+PATCH {{url}}/profiles/8
+Content-Type: application/json
+Authorization: Bearer {{student_token}}
+
+{
+ "firstName": "Student",
+ "lastName": "Doe",
+ "email": "john@student.com",
+ "password": "student123",
+  "role": "student"
+}
+### delete profile by student token
+DELETE {{url}}/profiles/8
+Authorization: Bearer {{student_token}}
+### get all profiles by admin token
+GET {{url}}/profiles
+Authorization: Bearer {{admin_token}}
+### find one profile by admin token
+GET {{url}}/profiles/7
+Authorization: Bearer {{admin_token}}
+### update profile by admin token
+PATCH {{url}}/profiles/10
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+ "firstName": "Admin",
+ "lastName": "Doe",
+ "email": "doe@school.com",
+ "password": "admin123",
+  "role": "admin"
+}
+### delete profile by admin token
+DELETE {{url}}/profiles/7
+Authorization: Bearer {{admin_token}}
+### get all profiles by guest token
+GET {{url}}/profiles
+Authorization: Bearer {{guest_token}}
+### find one profile by guest token
+GET {{url}}/profiles/10
+Authorization: Bearer {{guest_token}}
+### update profile by guest token
+PATCH {{url}}/profiles/9
+Content-Type: application/json
+Authorization: Bearer {{guest_token}}
+
+{
+ "firstName": "Guest",
+ "lastName": "Doe",
+ "email": "g@school.com",
+ "password": "guest123",
+  "role": "guest"
+}
+### delete profile by guest token
+DELETE {{url}}/profiles/9
+Authorization: Bearer {{guest_token}}
 ### STUDENTS ###
 ################
 ### Get All Students
 GET {{url}}/students
 Authorization: Bearer {{accessToken}}
 ### Create a new student
-POST {{url}}/students
-Content-Type: application/json
-
-{
-  "email": "student@school.com",
-  "password": "student123"
-}
-
+#########
 POST {{url}}/students
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -55,7 +167,7 @@ Authorization: Bearer {{accessToken}}
 {
  "firstName": "Joel",
  "lastName": "Doe",
- "email": "wwe@gmail.com",
+ "email": "student@gmail.com",
  "dateOfBirth": "2000-01-01",
  "gender":"female",
  "phoneNumber": "123-456-7890",
@@ -149,9 +261,9 @@ POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "June",
+ "firstName": "Jane",
  "lastName": "Doe",
-  "email": "j@gmail.com",
+  "email": "guest@gmail.com",
   "password": "John123"
 }
 ### Get profile by ID
