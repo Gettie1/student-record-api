@@ -22,13 +22,31 @@ GET {{url}}/auth/signout/1
 ### Refesh token
 GET {{url}}/auth/refreshTokens?id=3
 Authorization: Bearer {{refreshToken}}
-################
+
+######################
+### AUTHENTICATION ###
+######################
+### Get all users
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+  "email": "student@school.com",
+  "password": "student123"
+}
 ### STUDENTS ###
 ################
 ### Get All Students
 GET {{url}}/students
 Authorization: Bearer {{accessToken}}
 ### Create a new student
+POST {{url}}/students
+Content-Type: application/json
+
+{
+  "email": "student@school.com",
+  "password": "student123"
+}
 
 POST {{url}}/students
 Content-Type: application/json

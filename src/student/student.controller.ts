@@ -15,6 +15,7 @@ import { StudentService } from './student.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
 import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
+import { Public } from 'src/auth/decorators/public.decorator';
 // import { Query } from 'typeorm/driver/Query';
 @ApiTags('Students') // 👈 this is used by Swagger to group the endpoints
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
@@ -22,6 +23,7 @@ import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
 @Controller('students')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
+  @Public()
   @Post()
   async create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
