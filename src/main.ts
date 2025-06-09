@@ -26,7 +26,6 @@ async function bootstrap() {
     .setTitle('Student Management API')
     .setDescription('API for managing courses, students, and enrollments')
     .setVersion('1.0')
-    .addTag('courses')
     .addTag('students')
     .addBearerAuth(
       {
@@ -43,7 +42,7 @@ async function bootstrap() {
 
   const documentFactory = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, documentFactory, {
-    jsonDocumentUrl: '/api-json',
+    jsonDocumentUrl: 'api/api-json',
   });
   await app.listen(port, () => {
     console.log(`Application is running on: http://localhost:${port}`);

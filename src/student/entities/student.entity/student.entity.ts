@@ -28,27 +28,37 @@ export class Student {
 
   @Column({ unique: true })
   email: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dateOfBirth: Date;
+
   @Column({ nullable: true })
   phoneNumber?: string;
 
   @Column({ nullable: true })
   address?: string;
+
   @Column({ nullable: true })
   country?: string;
+
   @Column({ nullable: true })
   state: string;
+
   @Column({ nullable: true })
   city: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   enrollmentDate: string;
+
   @Column({ nullable: false })
   status: string;
+
   @Column({ nullable: false })
   profilePicture: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
