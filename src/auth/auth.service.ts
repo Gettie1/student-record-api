@@ -19,10 +19,10 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService, // Assuming ConfigService is imported and used for environment variables
   ) {}
-  private async getTokens(id: number, email: string) {
+  private async getTokens(id: number, email: string, role: string) {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
-        { sub: id, email },
+        { sub: id, email, role },
         {
           secret: this.configService.getOrThrow('JWT_ACCESS_TOKEN_SECRET'),
           expiresIn: this.configService.getOrThrow(
@@ -31,7 +31,7 @@ export class AuthService {
         },
       ),
       this.jwtService.signAsync(
-        { sub: id, email },
+        { sub: id, email, role },
         {
           secret: this.configService.getOrThrow('JWT_REFRESH_TOKEN_SECRET'),
           expiresIn: this.configService.getOrThrow(
@@ -76,6 +76,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.getTokens(
       user.id,
       user.email,
+      user.role,
     );
     await this.saveRefreshToken(user.id, refreshToken);
     return { accessToken, refreshToken };
@@ -120,6 +121,7 @@ export class AuthService {
     const { accessToken, refreshToken: newRefreshToken } = await this.getTokens(
       user.id,
       user.email,
+      user.role,
     );
     await this.saveRefreshToken(user.id, newRefreshToken);
     return { accessToken, refreshToken: newRefreshToken };

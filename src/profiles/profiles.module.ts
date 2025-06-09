@@ -4,10 +4,11 @@ import { ProfilesController } from './profiles.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Profile } from './entities/profile.entity'; // Import the Profile entity
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Module({
   imports: [DatabaseModule, TypeOrmModule.forFeature([Profile])], // Import the necessary modules, e.g., TypeOrmModule for database access
   controllers: [ProfilesController],
-  providers: [ProfilesService],
+  providers: [ProfilesService, RolesGuard],
 })
 export class ProfilesModule {}

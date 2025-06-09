@@ -22,6 +22,7 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { LogsModule } from './logs/logs.module';
 // import { AuthGuard } from '@nestjs/passport';
 import { AtGuard } from './auth/guards/at.guard';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { AtGuard } from './auth/guards/at.guard';
     ProfilesModule,
     // SeedDataModule,
     LogsModule,
+    CaslModule,
   ],
   controllers: [],
   providers: [
