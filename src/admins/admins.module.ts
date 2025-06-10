@@ -5,10 +5,11 @@ import { DatabaseModule } from 'src/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from './entities/admin.entity';
 import { Profile } from 'src/profiles/entities/profile.entity';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Module({
   imports: [DatabaseModule, TypeOrmModule.forFeature([Admin, Profile])], // Add any necessary modules here, e.g., TypeOrmModule for database access
   controllers: [AdminsController],
-  providers: [AdminsService],
+  providers: [AdminsService, RolesGuard],
 })
 export class AdminsModule {}

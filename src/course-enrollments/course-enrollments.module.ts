@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CourseEnrollment } from './entities/course-enrollment.entity';
 import { Course } from 'src/courses/entities/course.entity';
 import { Student } from 'src/student/entities/student.entity/student.entity';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+// import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -13,6 +15,6 @@ import { Student } from 'src/student/entities/student.entity/student.entity';
     TypeOrmModule.forFeature([CourseEnrollment, Course, Student]),
   ], // Add any necessary modules here, e.g., TypeOrmModule for database access
   controllers: [CourseEnrollmentsController],
-  providers: [CourseEnrollmentsService],
+  providers: [CourseEnrollmentsService, RolesGuard],
 })
 export class CourseEnrollmentsModule {}
