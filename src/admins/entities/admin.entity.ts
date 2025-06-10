@@ -5,8 +5,10 @@ import {
   JoinColumn,
   Relation,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import { Profile } from '../../profiles/entities/profile.entity';
+import { AdminLogin } from 'src/admin-logins/entities/admin-login.entity';
 @Entity()
 export class Admin {
   @PrimaryGeneratedColumn()
@@ -34,4 +36,9 @@ export class Admin {
   })
   @JoinColumn()
   profile: Relation<Profile>;
+  @OneToMany(() => AdminLogin, (adminLogin) => adminLogin.admin, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  adminLogins: Relation<AdminLogin[]>;
 }

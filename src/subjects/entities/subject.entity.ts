@@ -1,5 +1,12 @@
 import { Course } from 'src/courses/entities/course.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Session } from 'src/sessions/entities/session.entity'; // Update the import to your actual Session entity path
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 @Entity()
 export class Subject {
   @PrimaryGeneratedColumn()
@@ -15,4 +22,8 @@ export class Subject {
     onDelete: 'CASCADE',
   })
   course: Course;
+  @OneToMany(() => Session, (session) => session.subject, {
+    onDelete: 'CASCADE',
+  })
+  sessions: Session[]; // Assuming you have a Session entity related to Subject
 }

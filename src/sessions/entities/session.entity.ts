@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Subject } from 'src/subjects/entities/subject.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Session {
   // import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
@@ -19,4 +20,9 @@ export class Session {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+  @ManyToOne(() => Subject, (subject) => subject.sessions, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  subject: Subject; // Assuming you have a Subject entity related to Session
 }

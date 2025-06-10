@@ -81,14 +81,14 @@ The **Student Management System API** enables both administrators and students t
       },
       'access-token', // Name of the security scheme
     )
-    .addApiKey(
-      {
-        type: 'apiKey',
-        name: 'X-API-KEY',
-        in: 'header',
-      },
-      'api-key', // Name of the security scheme
-    )
+    // .addApiKey(
+    //   {
+    //     type: 'apiKey',
+    //     name: 'X-API-KEY',
+    //     in: 'header',
+    //   },
+    //   'api-key', // Name of the security scheme
+    // )
     .addServer(`http://localhost:${port}`, 'Local development server')
     .addServer(`https://student.example.com`, 'Production server')
     .build();

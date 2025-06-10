@@ -33,11 +33,23 @@ export class CoursesService {
     return this.courseRepository.save(course);
   }
 
-  async findAll() {
-    const courses = await this.courseRepository.find({
+  async findAll(search?: string) {
+    if (search) {
+      return this.courseRepository.find({
+        where: [
+          { id: search },
+          { courseName: search },
+          { description: search },
+          { courseCode: search },
+          { students: { firstName: search } }, // Assuming you want to search by student's first name
+          { students: { lastName: search } }, // Assuming you want to search by student's last name
+        ],
+        relations: ['students'],
+      });
+    }
+    return this.courseRepository.find({
       relations: ['students'],
     });
-    return courses;
   }
 
   async findOne(id: number) {
