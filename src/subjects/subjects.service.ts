@@ -29,7 +29,10 @@ export class SubjectsService {
         `Subject with name ${createSubjectDto.subjectName} already exists`,
       );
     }
-    const subject = this.Subjectrepository.create(createSubjectDto);
+    const subject = this.Subjectrepository.create({
+      ...createSubjectDto,
+      credits: Number(createSubjectDto.credits),
+    });
     return this.Subjectrepository.save(subject);
   }
 

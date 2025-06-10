@@ -69,7 +69,7 @@ The **Student Management System API** enables both administrators and students t
     .addTag('Admins', 'Admin management endpoint')
     .addTag('Subjects', 'Subject management endpoint')
     .addTag('Reports', 'Report generation endpoint')
-    .addTag('AdminLogins', 'Admin login endpoint')
+    .addTag('Admin Logins', 'Admin login endpoint')
     .addBearerAuth(
       {
         type: 'http',

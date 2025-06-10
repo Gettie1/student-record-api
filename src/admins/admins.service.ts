@@ -15,16 +15,16 @@ export class AdminsService {
   ) {}
   async create(createAdminDto: CreateAdminDto) {
     const existingAdmin = await this.adminsRepository.findOne({
-      where: { id: String(createAdminDto.admin_id) },
+      where: { id: String(createAdminDto.profileId) },
     });
     if (existingAdmin) {
       throw new NotFoundException(
-        `Admin with ID ${createAdminDto.admin_id} already exists`,
+        `Admin with ID ${createAdminDto.profileId} already exists`,
       );
     }
     return this.adminsRepository.save({
       ...createAdminDto,
-      admin_id: String(createAdminDto.admin_id),
+      admin_id: String(createAdminDto.profileId),
     });
   }
 
@@ -62,20 +62,42 @@ export class AdminsService {
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
-    // Ensure admin_id is a string if present in updateAdminDto
-    const dtoToUpdate = {
-      ...updateAdminDto,
-      admin_id:
-        updateAdminDto.admin_id !== undefined
-          ? String(updateAdminDto.admin_id)
-          : undefined,
-    };
-    return await this.adminsRepository.update({ id: String(id) }, dtoToUpdate);
+    const admin = await this.adminsRepository.findOne({
+      where: { id: String(id) },
+      relations: ['profile'],
+    });
+    if (!admin) {
+      throw new NotFoundException(`Admin with ID ${id} not found`);
+    }
+    // Update the admin properties
+    Object.assign(admin, updateAdminDto);
+    // If a profile is provided, update or create it
+    if (updateAdminDto.profileId) {
+      if (admin.profile) {
+        Object.assign(admin.profile, updateAdminDto.profileId);
+        await this.adminProfilesRepository.save(admin.profile);
+      } else {
+        admin.profile = this.adminProfilesRepository.create({
+          id: updateAdminDto.profileId,
+        });
+        await this.adminProfilesRepository.save(admin.profile);
+      }
+    }
+    return this.adminsRepository.save(admin);
   }
 
   async remove(id: number) {
-    return await this.adminsRepository.delete({
-      id: String(id),
+    const admin = await this.adminsRepository.findOne({
+      where: { id: String(id) },
     });
+    if (!admin) {
+      throw new NotFoundException(`Admin with ID ${id} not found`);
+    }
+    // Remove the associated profile if it exists
+    if (admin.profile) {
+      await this.adminProfilesRepository.remove(admin.profile);
+    }
+    // Remove the admin
+    return this.adminsRepository.remove(admin);
   }
 }

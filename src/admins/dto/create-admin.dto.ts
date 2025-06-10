@@ -47,5 +47,5 @@ export class CreateAdminDto {
     example: 1,
   })
   @IsNumber()
-  admin_id: number;
+  profileId: number;
 }

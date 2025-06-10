@@ -14,8 +14,16 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "j@gmail.com",
- "password": "John123"
+ "email": "admin@school.com",
+ "password": "admin123"
+}
+### sign in a student
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "student@school.com",
+ "password": "student123"
 }
 ### SignOut a new user
 GET {{url}}/auth/signout/1
@@ -45,7 +53,7 @@ Content-Type: application/json
 {
  "firstName": "Admin",
  "lastName": "Doe",
- "email": "adm@school.com",
+ "email": "admin@school.com",
   "password": "admin123",
   "role": "admin"
 }
@@ -75,8 +83,8 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "doe@school.com",
- "password": "admin123"
+ "email": "Admin@school.com",
+ "password": "Admin123"
 }
 ### Get guest token
 POST {{url}}/auth/signin
@@ -102,11 +110,11 @@ Content-Type: application/json
 Authorization: Bearer {{student_token}}
 
 {
- "firstName": "Student",
+ "firstName": "Admin",
  "lastName": "Doe",
- "email": "john@student.com",
- "password": "student123",
-  "role": "student"
+ "email": "Admin@student.com",
+ "password": "Admin123",
+  "role": "admin"
 }
 ### delete profile by student token
 DELETE {{url}}/profiles/8
@@ -292,10 +300,11 @@ POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "Getrude",
+ "firstName": "Admin",
  "lastName": "Doe",
-  "email": "getrude@gmail.com",
-  "password": "getrude123"
+  "email": "Admin@gmail.com",
+  "password": "Admin123",
+  "role": "admin"
 }
 ### Get profile by ID
 GET {{url}}/profiles/1

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSessionDto } from './dto/create-session.dto';
@@ -12,8 +12,28 @@ export class SessionsService {
     @InjectRepository(Session) private Sessiontrepository: Repository<Session>,
     @InjectRepository(Subject) private SubjectRepository: Repository<Subject>,
   ) {}
-  create(createSessionDto: CreateSessionDto) {
-    return createSessionDto;
+  async create(createSessionDto: CreateSessionDto) {
+    try {
+      // Check if the subject exists
+      const subject = await this.SubjectRepository.findOne({
+        where: { subjectName: createSessionDto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException(
+          `Subject with ID ${createSessionDto.subjectId} not found`,
+        );
+      }
+
+      const session = this.Sessiontrepository.create({
+        ...createSessionDto,
+        subject, // Associate the subject with the session
+      });
+
+      return await this.Sessiontrepository.save(session);
+    } catch (error) {
+      console.error('Error creating session:', error);
+      throw new Error('Session creation failed');
+    }
   }
 
   async findAll() {
