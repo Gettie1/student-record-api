@@ -19,6 +19,7 @@ import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
+// import { Public } from 'src/auth/decorators/public.decorator';
 // import { Query } from 'typeorm/driver/Query';
 @ApiTags('Students') // 👈 this is used by Swagger to group the endpoints
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
@@ -26,6 +27,8 @@ import { Role } from 'src/profiles/entities/profile.entity';
 @Controller('students')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
+
+  // @Public() // 👈 this is a custom decorator to allow public access to this route
   @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
   @Post()
   async create(@Body() createStudentDto: CreateStudentDto) {
@@ -58,7 +61,7 @@ export class StudentController {
   findProfile(@Param('id', ParseIntPipe) id: number) {
     return this.studentService.findProfile(id);
   }
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN, Role.STUDENT) // 👈 this is a custom decorator to check if the user has the ADMIN role
   @Put(':id')
   update(
     @Param('id', ParseIntPipe)

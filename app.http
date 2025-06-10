@@ -1,4 +1,4 @@
-@url=http://localhost:8000
+@url=http://localhost:8000/api/v1
 
 ### HTTP server configuration
 #####################
@@ -67,15 +67,15 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "student@school.com",
- "password": "student123"
+ "email": "getrude@gmail.com",
+ "password": "getrude123"
 }
 ### Get admin token
 POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "adm@school.com",
+ "email": "doe@school.com",
  "password": "admin123"
 }
 ### Get guest token
@@ -83,18 +83,18 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "guest@school.com",
+ "email": "g@school.com",
  "password": "guest123"
 }
 ### store access token
-@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoic3R1ZGVudEBzY2hvb2wuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk0ODM3MTgsImV4cCI6MTc0OTQ4NDYxOH0.djssOEcQxG9viYHz4h6nS4Y85zYMNaJ_jo43Tj-aI3E
+@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6ImdldHJ1ZGVAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk1NjM2OTMsImV4cCI6MTc0OTU2NDU5M30.JQWzJCxRaNeubaCIb-YBnt734kVAQZ6V9avcApc6BSY
 @admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6ImFkbUBzY2hvb2wuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NDg0MzQ4LCJleHAiOjE3NDk0ODUyNDh9.oxDuMHWG65E0duYzu8AbhbZemOGoD_xXfnI8R01sI0Q
 @guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
 #### get profiles by student token
 GET {{url}}/profiles
 Authorization: Bearer {{student_token}}
 ### find one profile by student token
-GET {{url}}/profiles/8
+GET {{url}}/profiles/15
 Authorization: Bearer {{student_token}}
 ### update profile by student token
 PATCH {{url}}/profiles/8
@@ -153,6 +153,37 @@ Authorization: Bearer {{guest_token}}
 ### delete profile by guest token
 DELETE {{url}}/profiles/9
 Authorization: Bearer {{guest_token}}
+
+################
+##Getting All students using student token
+GET {{url}}/students
+Authorization: Bearer {{student_token}}
+### Creating a new student using student token
+POST {{url}}/students
+Content-Type: application/json
+Authorization: Bearer {{student_token}}
+
+{
+ "firstName": "John",
+ "lastName": "Doe",
+ "email": "john@gmail.com",
+  "dateOfBirth": "2000-01-01",
+ "gender":"female",
+ "phoneNumber": "123-456-7890",
+ "address": "123 Main St, Anytown, USA",
+ "country": "USA",
+ "state": "California",
+ "city": "Los Angeles",
+ "enrollmentDate": "2023-09-01",
+ "status": "active",
+ "profilePicture": "http://example.com/profile.jpg",
+ "profileId": "1"
+}
+### Getting a student by ID using student token
+GET {{url}}/students/1/courses
+Authorization: Bearer {{student_token}}
+
+#################
 ### STUDENTS ###
 ################
 ### Get All Students
@@ -167,7 +198,7 @@ Authorization: Bearer {{accessToken}}
 {
  "firstName": "Joel",
  "lastName": "Doe",
- "email": "student@gmail.com",
+ "email": "joel@gmail.com",
  "dateOfBirth": "2000-01-01",
  "gender":"female",
  "phoneNumber": "123-456-7890",
@@ -261,10 +292,10 @@ POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "Jane",
+ "firstName": "Getrude",
  "lastName": "Doe",
-  "email": "guest@gmail.com",
-  "password": "John123"
+  "email": "getrude@gmail.com",
+  "password": "getrude123"
 }
 ### Get profile by ID
 GET {{url}}/profiles/1

@@ -14,7 +14,7 @@ import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AtGuard } from 'src/auth/guards/at.guard';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
@@ -32,11 +32,16 @@ export class ProfilesController {
   create(@Body() createProfileDto: CreateProfileDto) {
     return this.profilesService.create(createProfileDto);
   }
-
+  @ApiQuery({
+    name: 'Search',
+    required: false,
+    description: 'Filter profiles by name or other attributes',
+    type: String,
+  })
   @Roles(Role.ADMIN) // 👈 this is a custom decorator to set roles for this route
   @Get()
-  findAll(@Query('email') email?: string) {
-    return this.profilesService.findAll(email);
+  findAll(@Query('Search') Search?: string) {
+    return this.profilesService.findAll(Search);
   }
 
   @Roles(Role.ADMIN, Role.STUDENT, Role.GUEST) // 👈 this is a custom decorator to set roles for this route

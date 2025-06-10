@@ -12,7 +12,7 @@ import {
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AtGuard } from 'src/auth/guards/at.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Role } from 'src/profiles/entities/profile.entity';
@@ -23,20 +23,23 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 @Controller('admins')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
-
+  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
   @Post()
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminsService.create(createAdminDto);
   }
   @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    description: 'Filter admins by name',
+    type: String,
+  })
   @Get()
-  findAll(@Query('name') name?: string) {
-    if (name) {
-      return this.adminsService.findAll(name);
-    }
-    return this.adminsService.findAll();
+  findAll(@Query('search') Search?: string) {
+    return this.adminsService.findAll(Search);
   }
-  @Roles(Role.ADMIN, Role.STUDENT, Role.GUEST) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.adminsService.findOne(+id);

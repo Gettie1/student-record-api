@@ -27,13 +27,12 @@ export class AdminsService {
       admin_id: String(createAdminDto.admin_id),
     });
   }
-  async findAll(email?: string) {
+
+  async findAll(search?: string) {
     try {
-      if (email) {
+      if (search) {
         return await this.adminsRepository.find({
-          where: {
-            email: email,
-          },
+          where: [{ id: search }, { username: search }, { email: search }],
           relations: ['profile'],
         });
       }
@@ -41,7 +40,7 @@ export class AdminsService {
         relations: ['profile'],
       });
     } catch (error) {
-      console.error('Error fetching admins:', error);
+      console.log('Error finding admins:', error);
       throw new NotFoundException('Admins not found');
     }
   }

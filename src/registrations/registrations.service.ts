@@ -72,7 +72,8 @@ export class RegistrationsService {
     if (!registration) {
       throw new Error(`Registration with ID ${id} not found`);
     }
-    return updateRegistrationDto;
+    Object.assign(registration, updateRegistrationDto);
+    return await this.registrationRepository.save(registration);
   }
 
   async remove(id: number): Promise<Registration> {

@@ -22,6 +22,7 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { LogsModule } from './logs/logs.module';
 // import { AuthGuard } from '@nestjs/passport';
 import { AtGuard } from './auth/guards/at.guard';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -63,6 +64,17 @@ import { AtGuard } from './auth/guards/at.guard';
         ttl: 60 * 60, // Default TTL of 1 hour
       }),
     }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.getOrThrow<number>('THROTTLE_TTL'),
+          limit: config.getOrThrow<number>('THROTTLE_LIMIT'),
+          ignoreUserAgents: [/^PostmanRuntime\//, /^curl\//],
+        },
+      ],
+    }),
     AuthModule,
     ProfilesModule,
     // SeedDataModule,
@@ -77,6 +89,10 @@ import { AtGuard } from './auth/guards/at.guard';
     {
       provide: APP_GUARD,
       useClass: AtGuard, // global guard for access tokens for all routes
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard, // global throttling guard
     },
   ],
 })
