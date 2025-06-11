@@ -75,8 +75,8 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "getrude@gmail.com",
- "password": "getrude123"
+ "email": "student@school.com",
+ "password": "student123"
 }
 ### Get admin token
 POST {{url}}/auth/signin
@@ -91,16 +91,16 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
- "email": "g@school.com",
+ "email": "guest@school.com",
  "password": "guest123"
 }
 ### store access token
 @student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6ImdldHJ1ZGVAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk1NjM2OTMsImV4cCI6MTc0OTU2NDU5M30.JQWzJCxRaNeubaCIb-YBnt734kVAQZ6V9avcApc6BSY
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6ImFkbUBzY2hvb2wuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NDg0MzQ4LCJleHAiOjE3NDk0ODUyNDh9.oxDuMHWG65E0duYzu8AbhbZemOGoD_xXfnI8R01sI0Q
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5Ac2Nob29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTYyNDM1OCwiZXhwIjoxNzQ5NjI1MjU4fQ.O5hHqO-8I0VIOFLfqBVst09dyYhDeBBA6tYsCnIvkEI
 @guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
 #### get profiles by student token
 GET {{url}}/profiles
-Authorization: Bearer {{student_token}}
+Authorization: Bearer {{admin_token}}
 ### find one profile by student token
 GET {{url}}/profiles/15
 Authorization: Bearer {{student_token}}
@@ -300,11 +300,11 @@ POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "Admin",
+ "firstName": "Guest",
  "lastName": "Doe",
-  "email": "Admin@gmail.com",
-  "password": "Admin123",
-  "role": "admin"
+  "email": "guest@school.com",
+  "password": "guest123",
+  "role": "guest"
 }
 ### Get profile by ID
 GET {{url}}/profiles/1

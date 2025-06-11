@@ -12,7 +12,7 @@ import { CourseEnrollmentsModule } from './course-enrollments/course-enrollments
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { ReportsModule } from './reports/reports.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-redis-store';
+// import * as redisStore from 'cache-manager-redis-store';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 // import Keyv from 'keyv';
@@ -23,6 +23,8 @@ import { LogsModule } from './logs/logs.module';
 // import { AuthGuard } from '@nestjs/passport';
 import { AtGuard } from './auth/guards/at.guard';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { createKeyv, Keyv } from '@keyv/redis';
+import { CacheableMemory } from 'cacheable';
 
 @Module({
   imports: [
@@ -57,12 +59,22 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     FeedbacksModule,
     ReportsModule,
     CacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       isGlobal: true,
-      useFactory: () => ({
-        store: redisStore,
-        url: process.env.REDIS_URL,
-        ttl: 60 * 60, // Default TTL of 1 hour
-      }),
+      // Use redisStore for caching
+      useFactory: (configService: ConfigService) => {
+        return {
+          ttl: 30000,
+          stores: [
+            new Keyv({
+              store: new CacheableMemory({ ttl: 30000, lruSize: 5000 }),
+            }),
+            createKeyv(configService.getOrThrow<string>('REDIS_URL')),
+          ],
+          logger: true,
+        };
+      },
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],

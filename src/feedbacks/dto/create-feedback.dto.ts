@@ -1,26 +1,42 @@
-// feedback_id	INT	Primary Key, auto-incremented
-// user_id	INT	User ID (can be admin or student)
-// subject_id	INT	Foreign Key referencing subjects
-// feedback	TEXT	Detailed feedback
-// rating	INT	Rating from 1 to 5
-// timestamp	DATETIME	Date and time of feedback submission
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsInt, IsString, IsOptional, IsDate } from 'class-validator';
 export class CreateFeedbackDto {
+  @ApiProperty({
+    description: 'Unique identifier for the user providing feedback',
+    example: 1,
+  })
   @IsInt()
   user_id: number;
-
+  @ApiProperty({
+    description: 'Unique identifier for the subject being reviewed',
+    example: 101,
+  })
   @IsInt()
-  subject_id: number;
-
+  subjectId: number;
+  @ApiProperty({
+    description: 'Detailed feedback provided by the user',
+    example: 'The course content was very informative and well-structured.',
+  })
   @IsString()
   feedback: string;
-
+  @ApiProperty({
+    description: 'Rating given by the user, from 1 to 5',
+    example: 4,
+  })
   @IsInt()
   rating: number;
-
+  @ApiProperty({
+    description: 'Timestamp of when the feedback was submitted',
+    example: '2023-10-01T12:00:00Z',
+  })
+  @Type(() => Date)
   @IsDate()
-  timestamp: Date;
-
+  timestamp: string;
+  @ApiProperty({
+    description: 'Additional comments or suggestions from the user',
+    example: 'I would appreciate more interactive sessions.',
+  })
   @IsOptional()
   @IsString()
   additional_comments?: string;

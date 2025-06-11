@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -19,10 +20,12 @@ import { AtGuard } from 'src/auth/guards/at.guard';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @UseGuards(AtGuard, RolesGuard) // 👈 this is a custom decorator to set roles
 @ApiTags('Profiles') // 👈 this is the tag for Swagger UI
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
+@UseInterceptors(CacheInterceptor)
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}

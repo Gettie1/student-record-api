@@ -16,7 +16,9 @@ import { AtGuard } from '../auth/guards/at.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/role.decorator'; // <-- Add this import
 import { Role } from 'src/profiles/entities/profile.entity';
-
+import { CacheInterceptor } from '@nestjs/cache-manager'; // Uncomment if you want to use caching
+import { UseInterceptors } from '@nestjs/common'; // Import UseInterceptors for caching responses
+@UseInterceptors(CacheInterceptor) // 👈 this is used to cache the responses, uncomment if needed
 @ApiTags('Sessions') // 👈 this is used by Swagger to group the endpoint
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
 @UseGuards(AtGuard, RolesGuard) // 👈 actual runtime protection

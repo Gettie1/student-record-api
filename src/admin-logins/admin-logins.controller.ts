@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AdminLoginsService } from './admin-logins.service';
 import { CreateAdminLoginDto } from './dto/create-admin-login.dto';
@@ -16,7 +17,9 @@ import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
 import { RolesGuard } from '../auth/guards/roles.guard'; // Adjust the path as needed
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
+import { CacheInterceptor } from '@nestjs/cache-manager'; // Import CacheInterceptor for caching responses
 
+@UseInterceptors(CacheInterceptor) // 👈 this is used to cache the responses
 @ApiTags('Admin Logins') // 👈 this is used by Swagger to group the endpoints
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
 @UseGuards(AtGuard, RolesGuard) // 👈 actual runtime protection

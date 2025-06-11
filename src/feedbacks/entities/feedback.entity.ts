@@ -6,7 +6,7 @@ export class Feedback {
   user_id: number;
 
   @Column()
-  subject_id: number;
+  subjectId: number;
 
   @Column()
   feedback: string;

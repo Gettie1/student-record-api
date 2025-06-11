@@ -19,8 +19,11 @@ import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
+import { CacheInterceptor } from '@nestjs/cache-manager'; // Uncomment if you want to use caching
+import { UseInterceptors } from '@nestjs/common'; // Import UseInterceptors for caching responses
 // import { Public } from 'src/auth/decorators/public.decorator';
 // import { Query } from 'typeorm/driver/Query';
+@UseInterceptors(CacheInterceptor) // 👈 this is used to cache the responses, uncomment if needed
 @ApiTags('Students') // 👈 this is used by Swagger to group the endpoints
 @ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
 @UseGuards(AtGuard, RolesGuard) // 👈 actual runtime protection

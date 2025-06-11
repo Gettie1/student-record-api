@@ -10,6 +10,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity/student.entity';
 import { Course } from 'src/courses/entities/course.entity';
 import { Profile } from 'src/profiles/entities/profile.entity';
+import { Feedback } from 'src/feedbacks/entities/feedback.entity';
 @Injectable()
 export class StudentService {
   constructor(
@@ -19,6 +20,8 @@ export class StudentService {
     private profileRepository: Repository<Profile>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>,
+    @InjectRepository(Feedback)
+    private feedbackRepository: Repository<Feedback>,
   ) {}
   async create(createStudentDto: CreateStudentDto) {
     // Check if the profile already exists
