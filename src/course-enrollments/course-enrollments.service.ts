@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CourseEnrollment } from './entities/course-enrollment.entity';
@@ -47,6 +47,9 @@ export class CourseEnrollmentsService {
     const courseEnrollments = await this.courseEnrollmentsRepository.find({
       relations: ['student', 'course'], // Include relations to student and course
     });
+    if (!courseEnrollments || courseEnrollments.length === 0) {
+      throw new NotFoundException('No course enrollments found');
+    }
     return courseEnrollments.map((enrollment) => ({
       ...enrollment,
       student: enrollment.student
@@ -59,10 +62,6 @@ export class CourseEnrollmentsService {
       course: enrollment.course
         ? {
             id: enrollment.course.id,
-            // Uncomment the following line if 'title' exists on Course entity
-            // title: enrollment.course.title,
-            // Uncomment the following line if 'description' exists on Course entity
-            // description: enrollment.course.description,
           }
         : null,
     }));
@@ -74,7 +73,7 @@ export class CourseEnrollmentsService {
       relations: ['student', 'course'], // Include relations to student and course
     });
     if (!courseEnrollment) {
-      throw new Error(`Course enrollment with ID ${id} not found`);
+      throw new NotFoundException(`Course enrollment with ID ${id} not found`);
     }
     return {
       ...courseEnrollment,

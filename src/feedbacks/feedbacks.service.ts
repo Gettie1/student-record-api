@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
@@ -61,7 +61,7 @@ export class FeedbacksService {
       relations: ['student'], // Load student relation if needed
     });
     if (!feedback) {
-      throw new Error(`Feedback with id ${id} not found`);
+      throw new NotFoundException(`Feedback with id ${id} not found`);
     }
     return feedback;
   }

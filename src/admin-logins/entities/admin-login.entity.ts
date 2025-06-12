@@ -1,14 +1,8 @@
 import { Admin } from 'src/admins/entities/admin.entity';
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  ManyToOne,
-  Relation,
-} from 'typeorm';
+import { PrimaryColumn, Column, Entity, ManyToOne, Relation } from 'typeorm';
 @Entity()
 export class AdminLogin {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   admin_id: number;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   login_time: Date;

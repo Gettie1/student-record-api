@@ -1,10 +1,6 @@
-// report_id	INT	Primary Key, auto-incremented
-// student_id	INT	Foreign Key referencing students
-// course_id	INT	Foreign Key referencing courses
-// report_data	TEXT	Generated report data
-// report_date	DATETIME	Date of report generation
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
 export class CreateReportDto {
   @ApiProperty({
     description: 'Unique identifier for the report',
@@ -31,7 +27,8 @@ export class CreateReportDto {
     description: 'Date of report generation in ISO format',
     example: '2023-10-01T12:00:00Z',
   })
-  @IsString()
+  @Type(() => Date)
+  @IsDate()
   @IsNotEmpty()
   report_date: string; // ISO date string
 }

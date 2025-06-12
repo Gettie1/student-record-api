@@ -32,10 +32,10 @@ async function bootstrap() {
   const port = configService.get<number>('PORT') || 3000;
 
   const config = new DocumentBuilder()
-    .setTitle('Student Management API')
+    .setTitle('Student Records Management API')
     .setDescription(
       `
-The **Student Management System API** enables both administrators and students to perform academic and administrative operations seamlessly.
+The **Student Records Management System API** enables both administrators and students to perform academic and administrative operations seamlessly.
 
 ### ✨ Key Features
 - User authentication with role-based access (Admin, Student)

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Student } from 'src/student/entities/student.entity/student.entity';
 @Entity()
 export class Report {
   @PrimaryGeneratedColumn()
@@ -14,4 +15,6 @@ export class Report {
   })
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+  @ManyToMany(() => Student, (student) => student.reports)
+  students: Student[];
 }

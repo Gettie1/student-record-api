@@ -1,9 +1,9 @@
 @url=http://localhost:8000/api/v1
 
 ### HTTP server configuration
-#####################
-### AUTHENTICATION ##
-#####################
+####################################
+#         AUTHENTICATION 
+####################################
 @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiakBnbWFpbC5jb20iLCJpYXQiOjE3NDkzOTI2ODIsImV4cCI6MTc0OTM5MzU4Mn0.QWeRlp14UC4QK-9wN47VCarReuNr3jvuNyeHWQ8SJPs
 
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiakBnbWFpbC5jb20iLCJpYXQiOjE3NDkzOTI2ODIsImV4cCI6MTc0OTk5NzQ4Mn0.q0zkHB9ETxBunnGnAWpvs4JYwBvmkw1v7f8doe0bBEs
@@ -17,6 +17,7 @@ Content-Type: application/json
  "email": "admin@school.com",
  "password": "admin123"
 }
+
 ### sign in a student
 POST {{url}}/auth/signin
 Content-Type: application/json
@@ -25,15 +26,33 @@ Content-Type: application/json
  "email": "student@school.com",
  "password": "student123"
 }
+
+### SignIn a guest
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "guest@gmail.com",
+ "password": "guest123"
+}
+
 ### SignOut a new user
 GET {{url}}/auth/signout/1
 ### Refesh token
 GET {{url}}/auth/refreshTokens?id=3
 Authorization: Bearer {{refreshToken}}
 
-######################
-### AUTHORIZATION ###
-######################
+##############################
+###     AUTHORIZATION
+##############################
+### store access token
+@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6ImdldHJ1ZGVAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk1NjM2OTMsImV4cCI6MTc0OTU2NDU5M30.JQWzJCxRaNeubaCIb-YBnt734kVAQZ6V9avcApc6BSY
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5Ac2Nob29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTYyNDM1OCwiZXhwIjoxNzQ5NjI1MjU4fQ.O5hHqO-8I0VIOFLfqBVst09dyYhDeBBA6tYsCnIvkEI
+@guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
+###############################
+#### CREATE PROFILES 
+###############################
+
 ### Create student profile
 POST {{url}}/profiles
 Content-Type: application/json
@@ -57,7 +76,9 @@ Content-Type: application/json
   "password": "admin123",
   "role": "admin"
 }
+
 ### Create guest profile
+
 POST {{url}}/profiles
 Content-Type: application/json
 
@@ -69,41 +90,15 @@ Content-Type: application/json
   "role": "guest"
 }
 
-### Get authentication tokens
-## Get student token
-POST {{url}}/auth/signin
-Content-Type: application/json
 
-{
- "email": "student@school.com",
- "password": "student123"
-}
-### Get admin token
-POST {{url}}/auth/signin
-Content-Type: application/json
-
-{
- "email": "Admin@school.com",
- "password": "Admin123"
-}
-### Get guest token
-POST {{url}}/auth/signin
-Content-Type: application/json
-
-{
- "email": "guest@school.com",
- "password": "guest123"
-}
-### store access token
-@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6ImdldHJ1ZGVAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk1NjM2OTMsImV4cCI6MTc0OTU2NDU5M30.JQWzJCxRaNeubaCIb-YBnt734kVAQZ6V9avcApc6BSY
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5Ac2Nob29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTYyNDM1OCwiZXhwIjoxNzQ5NjI1MjU4fQ.O5hHqO-8I0VIOFLfqBVst09dyYhDeBBA6tYsCnIvkEI
-@guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
 #### get profiles by student token
 GET {{url}}/profiles
 Authorization: Bearer {{admin_token}}
+
 ### find one profile by student token
 GET {{url}}/profiles/15
 Authorization: Bearer {{student_token}}
+
 ### update profile by student token
 PATCH {{url}}/profiles/8
 Content-Type: application/json
@@ -116,15 +111,21 @@ Authorization: Bearer {{student_token}}
  "password": "Admin123",
   "role": "admin"
 }
+
 ### delete profile by student token
 DELETE {{url}}/profiles/8
 Authorization: Bearer {{student_token}}
+
+#####################################
 ### get all profiles by admin token
+#####################################
 GET {{url}}/profiles
 Authorization: Bearer {{admin_token}}
+
 ### find one profile by admin token
 GET {{url}}/profiles/7
 Authorization: Bearer {{admin_token}}
+
 ### update profile by admin token
 PATCH {{url}}/profiles/10
 Content-Type: application/json
@@ -137,15 +138,20 @@ Authorization: Bearer {{admin_token}}
  "password": "admin123",
   "role": "admin"
 }
+
 ### delete profile by admin token
 DELETE {{url}}/profiles/7
 Authorization: Bearer {{admin_token}}
+
+#####################################
 ### get all profiles by guest token
 GET {{url}}/profiles
 Authorization: Bearer {{guest_token}}
+
 ### find one profile by guest token
 GET {{url}}/profiles/10
 Authorization: Bearer {{guest_token}}
+
 ### update profile by guest token
 PATCH {{url}}/profiles/9
 Content-Type: application/json
@@ -158,14 +164,16 @@ Authorization: Bearer {{guest_token}}
  "password": "guest123",
   "role": "guest"
 }
+
 ### delete profile by guest token
 DELETE {{url}}/profiles/9
 Authorization: Bearer {{guest_token}}
 
-################
+#############################################
 ##Getting All students using student token
 GET {{url}}/students
 Authorization: Bearer {{student_token}}
+
 ### Creating a new student using student token
 POST {{url}}/students
 Content-Type: application/json
@@ -187,18 +195,28 @@ Authorization: Bearer {{student_token}}
  "profilePicture": "http://example.com/profile.jpg",
  "profileId": "1"
 }
+
 ### Getting a student by ID using student token
 GET {{url}}/students/1/courses
 Authorization: Bearer {{student_token}}
 
-#################
-### STUDENTS ###
-################
+### Getting students by course using student token
+GET {{url}}/students/1/course-enrollments
+Authorization: Bearer {{student_token}}
+
+### Getting students by profile using student token
+GET {{url}}/students/1/profiles
+Authorization: Bearer {{student_token}}
+
+#####################################
+###        STUDENTS 
+#####################################
+
 ### Get All Students
 GET {{url}}/students
 Authorization: Bearer {{accessToken}}
+
 ### Create a new student
-#########
 POST {{url}}/students
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -223,14 +241,18 @@ Authorization: Bearer {{accessToken}}
 ### Get a student by ID
 GET {{url}}/students/1/registrations
 Authorization: Bearer {{accessToken}}
+
 ###Get students by course
 GET {{url}}/students/1/course-enrollments
+
 ### GET students by course
 GET {{url}}/students/1/courses
 Authorization: Bearer {{accessToken}}
+
 ### get students by profile
 GET {{url}}/students/1/profiles
 Authorization: Bearer {{accessToken}}
+
 ### Update a student
 PUT {{url}}/students/1
 Content-Type: application/json
@@ -242,13 +264,15 @@ Authorization: Bearer {{accessToken}}
  "email": "julian@gmail.com",
  "dateOfBirth": "2000-01-11"
 }
+
 ### Delete a student
 DELETE {{url}}/students/5
 Authorization: Bearer {{accessToken}}
 
-####################
-### SEEDING DATA ###
-####################
+##################################
+###         SEEDING DATA 
+###################################
+
 ### Seed the database with initial data
 POST {{url}}/seed-data
 Content-Type: application/json
@@ -256,12 +280,15 @@ Content-Type: application/json
 {
  "seedType": "initial"
 }
+
 #########################
-### Course-enrollment ###
+### COURSE ENROLLMENTS 
 #########################
+
 ### Get all course enrollments
 GET {{url}}/course-enrollments
 Authorization: Bearer {{accessToken}}
+
 ### Create a new course enrollment
 POST {{url}}/course-enrollments
 Content-Type: application/json
@@ -274,6 +301,7 @@ Authorization: Bearer {{accessToken}}
  "grade": "A",
  "status": "active"
 }
+
 ### Get course enrollment by ID
 GET {{url}}/course-enrollments/3
 
@@ -286,15 +314,18 @@ Content-Type: application/json
  "grade": "B+",
  "status": "completed"
 }
+
 ### Delete a course enrollment
 DELETE {{url}}/course-enrollments/2
 
-################
-### PROFILES ###
-################
+#############################
+###       PROFILES 
+#############################
+
 ### Get all profiles  
 GET {{url}}/profiles
 Authorization: Bearer {{accessToken}}
+
 ### Create a new profile
 POST {{url}}/profiles
 Content-Type: application/json
@@ -306,12 +337,15 @@ Content-Type: application/json
   "password": "guest123",
   "role": "guest"
 }
+
 ### Get profile by ID
 GET {{url}}/profiles/1
 Authorization: Bearer {{accessToken}}
+
 ### Get profile by name
 GET {{url}}/profiles?firstName=John
 Authorization: Bearer {{accessToken}}
+
 ### Update a profile
 PATCH {{url}}/profiles/2
 Content-Type: application/json
@@ -323,18 +357,19 @@ Authorization: Bearer {{accessToken}}
  "email": "smith@gmail.com",
   "password": "John1234"
 }
+
 ### Delete a profile
 DELETE {{url}}/profiles/1
 Authorization: Bearer {{accessToken}}
 
-#############
-### ADMIN ###
-#############
+#############################
+###         ADMIN 
+##############################
 
 ### Get all admins
-
 GET {{url}}/admins
 Authorization: Bearer {{accessToken}}
+
 ### create a new admin
 POST {{url}}/admins
 Content-Type: application/json
@@ -348,7 +383,6 @@ Authorization: Bearer {{accessToken}}
  "lastLogin": "2023-10-01T12:00:00Z",
  "isSuperAdmin": true
 }
-
 
 ### Get admin by id
 GET {{url}}/admins/1
@@ -371,12 +405,14 @@ Authorization: Bearer {{accessToken}}
 DELETE {{url}}/admins/4
 Authorization: Bearer {{accessToken}}
 
-###############
-### Courses ###
-###############
+################################
+###        COURSES
+################################
+
 ### Get all courses 
 GET {{url}}/courses
 Authorization: Bearer {{accessToken}}
+
 ### Create a new course
 POST {{url}}/courses
 Content-Type: application/json
@@ -391,12 +427,15 @@ Authorization: Bearer {{accessToken}}
  "createdAt": "2023-09-01T00:00:00Z",
  "updatedAt": "2023-09-01T00:00:00Z"
 }
+
 ### Get course by ID
 GET {{url}}/courses/1
 Authorization: Bearer {{accessToken}}
+
 ### Get course by name
 GET {{url}}/courses?courseName=Introduction%20to%20Programming
 Authorization: Bearer {{accessToken}}
+
 ### Update a course
 PATCH {{url}}/courses/1
 Content-Type: application/json
@@ -406,15 +445,19 @@ Authorization: Bearer {{accessToken}}
  "courseName": "Advanced Programming",
  "credits": 4
 }
+
 ### Delete a course
 DELETE {{url}}/courses/1
 Authorization: Bearer {{accessToken}}
-#####################
-### Registrations ###
-#####################
+
+###############################
+###      REGISTRATIONS
+###############################
+
 ### Get all registrations
 GET {{url}}/registrations
 Authorization: Bearer {{accessToken}}
+
 ### Create a new registration
 POST {{url}}/registrations
 Content-Type: application/json
@@ -428,12 +471,15 @@ Authorization: Bearer {{accessToken}}
  "registrationDate": "2023-09-01",
  "status": "pending"
 }
+
 ### Get registration by ID
 GET {{url}}/registrations/1
 Authorization: Bearer {{accessToken}}
+
 ### Get registration by course ID
 GET {{url}}/registrations?courseId=1
 Authorization: Bearer {{accessToken}}
+
 ### Update a registration
 PATCH {{url}}/registrations/1
 Content-Type: application/json
@@ -442,15 +488,18 @@ Authorization: Bearer {{accessToken}}
 {
  "status": "approved"
 }
+
 ### Delete a registration
 DELETE {{url}}/registrations/1
 Authorization: Bearer {{accessToken}}
 
-#################
-### Subjects ###
-#################
+##############################
+###      SUBJECTS
+##############################
+
 ### Get all subjects
 GET {{url}}/subjects
+
 ### Create a new subject
 POST {{url}}/subjects
 Content-Type: application/json
@@ -463,10 +512,13 @@ Content-Type: application/json
  "department": "Computer Science",
  "semester": "Fall 2023"
 }
+
 ### Get subject by ID
 GET {{url}}/subjects/1
+
 ### Get subject by name
 GET {{url}}/subjects?subjectName=Data%20Structures
+
 ### Update a subject
 PATCH {{url}}/subjects/1
 Content-Type: application/json
@@ -475,13 +527,16 @@ Content-Type: application/json
  "subjectName": "Advanced Data Structures",
  "credits": 4
 }
+
 ### Delete a subject
 DELETE {{url}}/subjects/1
-#################
-### Sessions ####
-#################
+###########################
+###       SESSIONS
+###########################
+
 ### Get all sessions
 GET {{url}}/sessions
+
 ### Create a new session
 POST {{url}}/sessions
 Content-Type: application/json
@@ -492,10 +547,13 @@ Content-Type: application/json
  "endDate": "2023-12-15",
  "status": "active"
 }
+
 ### Get session by ID
 GET {{url}}/sessions/1
+
 ### Get session by name
 GET {{url}}/sessions?sessionName=2023%20Fall
+
 ### Update a session
 PATCH {{url}}/sessions/1
 Content-Type: application/json
@@ -504,6 +562,127 @@ Content-Type: application/json
  "endDate": "2023-12-20",
  "status": "completed"
 }
+
+### Delete a session
+DELETE {{url}}/sessions/1
+
+###########################
+###       FEEDBACKS
+###########################
+### Get all feedbacks
+GET {{url}}/feedbacks
+
+### Create a new feedback
+POST {{url}}/feedbacks
+Content-Type: application/json
+
+{
+ "studentId": 1,
+ "courseId": 1,
+ "feedbackText": "Great course!",
+ "rating": 5,
+ "createdAt": "2023-09-01T00:00:00Z"
+}
+
+### Get feedback by ID
+GET {{url}}/feedbacks/1
+
+### Get feedback by student ID
+GET {{url}}/feedbacks?studentId=1
+
+### Get feedback by course ID
+GET {{url}}/feedbacks?courseId=1
+
+### Update a feedback
+PATCH {{url}}/feedbacks/1
+Content-Type: application/json
+
+{
+ "feedbackText": "Excellent course!",
+ "rating": 4
+}
+
+### Delete a feedback
+DELETE {{url}}/feedbacks/1
+
+###########################
+###       REPORTS
+###########################
+
+### Get all reports
+GET {{url}}/reports
+
+### Create a new report
+POST {{url}}/reports
+Content-Type: application/json
+
+{
+ "reportType": "student",
+ "reportData": {
+   "studentId": 1,
+   "courseId": 1,
+   "enrollmentDate": "2023-09-01",
+   "status": "active"
+ }
+}
+
+### Get report by ID
+GET {{url}}/reports/1
+
+### Get report by type
+GET {{url}}/reports?reportType=student
+
+### Update a report
+PATCH {{url}}/reports/1
+Content-Type: application/json
+
+{
+ "reportData": {
+   "status": "completed"
+ }
+}
+
+### Delete a report
+DELETE {{url}}/reports/1
+
+###########################
+###       ADMIN LOGINS
+###########################
+
+### Get all admin logins
+GET {{url}}/admin-logins
+
+### Create a new admin login
+POST {{url}}/admin-logins
+Content-Type: application/json
+
+{
+ "adminId": 1,
+ "loginTime": "2023-09-01T12:00:00Z",
+ "logoutTime": "2023-09-01T14:00:00Z",
+ "ipAddress": "44552456",
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+}
+
+### Get admin login by ID
+GET {{url}}/admin-logins/1
+
+### Get admin login by admin ID
+GET {{url}}/admin-logins?adminId=1
+
+### Update an admin login
+PATCH {{url}}/admin-logins/1
+Content-Type: application/json
+
+{
+ "logoutTime": "2023-09-01T15:00:00Z"
+}
+
+### Delete an admin login
+DELETE {{url}}/admin-logins/1
+
+
+
 
 
 

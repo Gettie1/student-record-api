@@ -3,6 +3,7 @@ import { Course } from 'src/courses/entities/course.entity';
 import { Feedback } from 'src/feedbacks/entities/feedback.entity';
 import { Profile } from 'src/profiles/entities/profile.entity';
 import { Registration } from 'src/registrations/entities/registration.entity';
+import { Report } from 'src/reports/entities/report.entity';
 import {
   Column,
   Entity,
@@ -82,4 +83,6 @@ export class Student {
   @ManyToMany(() => Course, (course) => course.students)
   @JoinTable()
   courses: Relation<Course[]>;
+  @ManyToMany(() => Report, (report) => report.students)
+  reports: Report[];
 }
