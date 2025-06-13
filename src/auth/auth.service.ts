@@ -17,7 +17,7 @@ export class AuthService {
     @InjectRepository(Profile)
     private profileRepository: Repository<Profile>,
     private jwtService: JwtService,
-    private configService: ConfigService, // Assuming ConfigService is imported and used for environment variables
+    private configService: ConfigService,
   ) {}
   private async getTokens(id: number, email: string, role: string) {
     const [at, rt] = await Promise.all([
@@ -113,7 +113,7 @@ export class AuthService {
     if (!user.hashedRefreshToken) {
       throw new NotFoundException('No refresh token found for this user');
     }
-    // const refreshToken = user.hashedRefreshToken;
+    // Compare the provided refresh token with the stored hashed refresh token
     const isValid = await bcrypt.compare(refreshToken, user.hashedRefreshToken);
     if (!isValid) {
       throw new NotFoundException('Invalid refresh token');

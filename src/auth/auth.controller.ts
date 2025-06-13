@@ -16,8 +16,8 @@ import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateAuthDto } from './dto/login.dto';
 import { Public } from './decorators/public.decorator';
-import { AtGuard } from './guards/at.guard'; // Adjust the path if AtGuard is located elsewhere
-import { RtGuard } from './guards/rt.guard'; // Make sure this path is correct and RtGuard exists
+import { AtGuard } from './guards/at.guard';
+import { RtGuard } from './guards/rt.guard';
 import {
   ApiOperation,
   ApiResponse,

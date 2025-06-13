@@ -24,20 +24,26 @@ export class CourseEnrollmentsService {
       where: { id: String(createCourseEnrollmentDto.id) },
     });
     if (!student) {
-      throw new Error('Student not found');
+      throw new NotFoundException('Student not found');
     }
 
     const course = await this.courseRepository.findOne({
       where: { id: String(createCourseEnrollmentDto.course_id) },
     });
     if (!course) {
-      throw new Error('Course not found');
+      throw new NotFoundException('Course not found');
     }
 
     const courseEnrollment = this.courseEnrollmentsRepository.create({
-      ...createCourseEnrollmentDto,
+      enroll_date: createCourseEnrollmentDto.enroll_date,
+      grade: createCourseEnrollmentDto.grade,
+      status: createCourseEnrollmentDto.status,
       student,
       course,
+      course_id: Number(createCourseEnrollmentDto.course_id),
+      id: createCourseEnrollmentDto.id
+        ? Number(createCourseEnrollmentDto.id)
+        : undefined,
     });
 
     return this.courseEnrollmentsRepository.save(courseEnrollment);
@@ -70,7 +76,7 @@ export class CourseEnrollmentsService {
   async findOne(id: number) {
     const courseEnrollment = await this.courseEnrollmentsRepository.findOne({
       where: { course_id: id },
-      relations: ['student', 'course'], // Include relations to student and course
+      relations: ['student', 'course'], //include relations to student and course
     });
     if (!courseEnrollment) {
       throw new NotFoundException(`Course enrollment with ID ${id} not found`);
@@ -87,10 +93,6 @@ export class CourseEnrollmentsService {
       course: courseEnrollment.course
         ? {
             id: courseEnrollment.course.id,
-            // Uncomment the following line if 'title' exists on Course entity
-            // title: courseEnrollment.course.title,
-            // Uncomment the following line if 'description' exists on Course entity
-            // description: courseEnrollment.course.description,
           }
         : null,
     };

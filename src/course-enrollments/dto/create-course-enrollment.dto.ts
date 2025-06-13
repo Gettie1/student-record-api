@@ -15,14 +15,14 @@ export class CreateCourseEnrollmentDto {
   @IsInt()
   id: number;
   @ApiProperty({
-    description: 'Unique identifier for the student',
+    description: 'Unique identifier for the course',
     example: 12345,
   })
   @IsString()
-  course_id: number;
+  course_id: string;
   @ApiProperty({
-    description: 'Unique identifier for the course',
-    example: 67890,
+    description: 'Unique identifier for the enrolled date',
+    example: '2023-10-01T12:00:00Z',
   })
   @Type(() => Date)
   @IsDate()

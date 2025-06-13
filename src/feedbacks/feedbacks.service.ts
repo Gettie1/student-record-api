@@ -25,13 +25,12 @@ export class FeedbacksService {
     } = createFeedbackDto;
 
     // Check if the student exists
-    // Replace 'user_id' with the correct property name as defined in your Student entity, e.g., 'id' or 'studentId'
     const student = await this.studentRepository.findOne({
       where: { id: String(user_id) },
-      relations: ['feedbacks'], // Load feedbacks relation if needed
+      relations: ['feedbacks'], // Load feedbacks relation
     });
     if (!student) {
-      throw new Error(`Student with user_id ${user_id} not found`);
+      throw new NotFoundException(`Student with user_id ${user_id} not found`);
     }
 
     // Create a new feedback instance

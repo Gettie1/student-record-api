@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,13 +23,12 @@ export class CoursesService {
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
-    // Ensure CreateCourseDto and Course entity have a 'name' property
     const existingCourse = await this.courseRepository.findOne({
       where: { courseName: createCourseDto.courseName },
       relations: ['students'],
     });
     if (existingCourse) {
-      throw new Error(
+      throw new BadRequestException(
         `Course with name ${createCourseDto.courseName} already exists`,
       );
     }

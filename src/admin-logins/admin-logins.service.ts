@@ -19,17 +19,29 @@ export class AdminLoginsService {
     return this.adminLoginRepository.save(adminLogin);
   }
 
-  findAll() {
-    return this.adminLoginRepository.find({
-      relations: ['admin'], // Assuming you want to include the related admin entity
+  async findAll() {
+    const adminLogins = await this.adminLoginRepository.find({
+      relations: ['admin'], // Include the related admin entity
     });
+
+    if (!adminLogins || adminLogins.length === 0) {
+      throw new NotFoundException('No AdminLogins found');
+    }
+
+    return adminLogins;
   }
 
-  findOne(id: number) {
-    return this.adminLoginRepository.findOne({
+  async findOne(id: number) {
+    const adminLogin = await this.adminLoginRepository.findOne({
       where: { admin_id: id },
-      relations: ['admin'], // Assuming you want to include the related admin entity
+      relations: ['admin'],
     });
+
+    if (!adminLogin) {
+      throw new NotFoundException(`AdminLogin with ID ${id} not found`);
+    }
+
+    return adminLogin;
   }
 
   async update(id: number, updateAdminLoginDto: UpdateAdminLoginDto) {

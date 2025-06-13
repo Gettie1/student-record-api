@@ -38,13 +38,12 @@ async function bootstrap() {
 The **Student Records Management System API** enables both administrators and students to perform academic and administrative operations seamlessly.
 
 ### ✨ Key Features
-- User authentication with role-based access (Admin, Student)
-- Course and subject management
+- User authentication and authorization (Admin, Student)
+- Course, subject and session management
 - Student registration and course enrollments
-- Password change, feedback submission, and audit logging
 
 ### 👥 Roles & Access
-- **Admin**: Manage students, courses, sessions, and view reports
+- **Admin**: Manage students, courses, sessions, subjects and view reports
 - **Student**: Register for courses, view subjects, and give feedback
 
 ### 🌐 Base URLs
@@ -53,7 +52,6 @@ The **Student Records Management System API** enables both administrators and st
 
 ### 🔐 Authentication
 - Use the **Bearer Token** (JWT) via the \`Authorization\` header
-- Optionally include the \`X-API-KEY\` header for enhanced security
 `,
     )
 

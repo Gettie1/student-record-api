@@ -62,7 +62,6 @@ import { CacheableMemory } from 'cacheable';
       imports: [ConfigModule],
       inject: [ConfigService],
       isGlobal: true,
-      // Use redisStore for caching
       useFactory: (configService: ConfigService) => {
         return {
           ttl: 30000,
@@ -96,7 +95,7 @@ import { CacheableMemory } from 'cacheable';
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
+      useClass: CacheInterceptor, // global cache interceptor
     },
     {
       provide: APP_GUARD,

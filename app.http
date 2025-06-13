@@ -8,8 +8,8 @@
 
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiakBnbWFpbC5jb20iLCJpYXQiOjE3NDkzOTI2ODIsImV4cCI6MTc0OTk5NzQ4Mn0.q0zkHB9ETxBunnGnAWpvs4JYwBvmkw1v7f8doe0bBEs
 
-### SignIn a new user
-### SignIn
+### SignIn new profiles
+### SignIn an admin
 POST {{url}}/auth/signin
 Content-Type: application/json
 
@@ -46,8 +46,8 @@ Authorization: Bearer {{refreshToken}}
 ###     AUTHORIZATION
 ##############################
 ### store access token
-@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6ImdldHJ1ZGVAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk1NjM2OTMsImV4cCI6MTc0OTU2NDU5M30.JQWzJCxRaNeubaCIb-YBnt734kVAQZ6V9avcApc6BSY
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5Ac2Nob29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTYyNDM1OCwiZXhwIjoxNzQ5NjI1MjU4fQ.O5hHqO-8I0VIOFLfqBVst09dyYhDeBBA6tYsCnIvkEI
+@student_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoic3R1ZGVudEBzY2hvb2wuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE3NDk3MTg0MDcsImV4cCI6MTc0OTcxOTMwN30.P0jca9jLQhAFfwuV3EqkjPes3A492Ncv20DWg3Ma9TI
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5Ac2Nob29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTcyMjgwOCwiZXhwIjoxNzQ5NzIzNzA4fQ.IQQ_RWwwz6tS-fZSzZEfh7njsEQb9TJMBG4146FGJfw
 @guest_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoiZ3Vlc3RAc2Nob29sLmNvbSIsInJvbGUiOiJndWVzdCIsImlhdCI6MTc0OTQ4NDUxNiwiZXhwIjoxNzQ5NDg1NDE2fQ.WFMSbP_2W-LTdsZGpiZvYUY9bv-ERJg4ASg5yf0ZkQY
 ###############################
 #### CREATE PROFILES 
@@ -96,7 +96,7 @@ GET {{url}}/profiles
 Authorization: Bearer {{admin_token}}
 
 ### find one profile by student token
-GET {{url}}/profiles/15
+GET {{url}}/profiles/1
 Authorization: Bearer {{student_token}}
 
 ### update profile by student token
@@ -214,7 +214,7 @@ Authorization: Bearer {{student_token}}
 
 ### Get All Students
 GET {{url}}/students
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{admin_token}}
 
 ### Create a new student
 POST {{url}}/students
@@ -331,11 +331,11 @@ POST {{url}}/profiles
 Content-Type: application/json
 
 {
- "firstName": "Guest",
+ "firstName": "Getrude",
  "lastName": "Doe",
-  "email": "guest@school.com",
-  "password": "guest123",
-  "role": "guest"
+  "email": "getrude@school.com",
+  "password": "getrude123",
+  "role": "student"
 }
 
 ### Get profile by ID

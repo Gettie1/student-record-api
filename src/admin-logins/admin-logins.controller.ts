@@ -13,35 +13,35 @@ import { CreateAdminLoginDto } from './dto/create-admin-login.dto';
 import { UpdateAdminLoginDto } from './dto/update-admin-login.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
-import { AtGuard } from '../auth/guards/at.guard'; // Adjust the path as needed
-import { RolesGuard } from '../auth/guards/roles.guard'; // Adjust the path as needed
+import { AtGuard } from '../auth/guards/at.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
-import { CacheInterceptor } from '@nestjs/cache-manager'; // Import CacheInterceptor for caching responses
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
-@UseInterceptors(CacheInterceptor) // 👈 this is used to cache the responses
-@ApiTags('Admin Logins') // 👈 this is used by Swagger to group the endpoints
-@ApiBearerAuth('access-token') // 👈 tells Swagger this route uses Bearer token
-@UseGuards(AtGuard, RolesGuard) // 👈 actual runtime protection
+@UseInterceptors(CacheInterceptor)
+@ApiTags('Admin Logins')
+@ApiBearerAuth('access-token')
+@UseGuards(AtGuard, RolesGuard)
 @Controller('admin-logins')
 export class AdminLoginsController {
   constructor(private readonly adminLoginsService: AdminLoginsService) {}
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() createAdminLoginDto: CreateAdminLoginDto) {
     return this.adminLoginsService.create(createAdminLoginDto);
   }
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.adminLoginsService.findAll();
   }
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.adminLoginsService.findOne(+id);
   }
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -49,7 +49,7 @@ export class AdminLoginsController {
   ) {
     return this.adminLoginsService.update(+id, updateAdminLoginDto);
   }
-  @Roles(Role.ADMIN) // 👈 this is a custom decorator to check if the user has the ADMIN role
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.adminLoginsService.remove(+id);

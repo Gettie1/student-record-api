@@ -17,7 +17,7 @@ import { RolesGuard } from './guards/roles.guard';
     TypeOrmModule.forFeature([Profile]),
     JwtModule.register({ global: true }),
     PassportModule,
-  ], // Add your entities here
+  ],
   controllers: [AuthController],
   providers: [AuthService, AtStrategy, RtStrategy, JwtStrategy, RolesGuard],
   exports: [RolesGuard],

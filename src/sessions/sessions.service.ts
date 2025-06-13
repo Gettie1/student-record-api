@@ -26,27 +26,27 @@ export class SessionsService {
 
       const session = this.Sessiontrepository.create({
         ...createSessionDto,
-        subject, // Associate the subject with the session
+        subject,
       });
 
       return await this.Sessiontrepository.save(session);
     } catch (error) {
       console.error('Error creating session:', error);
-      throw new Error('Session creation failed');
+      throw new NotFoundException('Session creation failed');
     }
   }
 
   async findAll() {
     try {
       if (!this.Sessiontrepository) {
-        throw new Error('Session repository is not initialized');
+        throw new NotFoundException('Session repository is not initialized');
       }
       return await this.Sessiontrepository.find({
         relations: ['subject'], // Assuming you want to include the related subject entity
       });
     } catch (error) {
       console.error('Error finding sessions:', error);
-      throw new Error('Sessions not found');
+      throw new NotFoundException('Sessions not found');
     }
   }
 
@@ -54,25 +54,25 @@ export class SessionsService {
     try {
       const session = await this.Sessiontrepository.findOne({
         where: { id: id.toString() },
-        relations: ['subject'], // Assuming you want to include the related subject entity
+        relations: ['subject'],
       });
       if (!session) {
-        throw new Error(`Session with ID ${id} not found`);
+        throw new NotFoundException(`Session with ID ${id} not found`);
       }
       return session;
     } catch (error) {
       console.error(`Error finding session with ID ${id}:`, error);
-      throw new Error(`Session with ID ${id} not found`);
+      throw new NotFoundException(`Session with ID ${id} not found`);
     }
   }
 
   async update(id: number, updateSessionDto: UpdateSessionDto) {
     const session = await this.Sessiontrepository.findOne({
       where: { id: id.toString() },
-      relations: ['subject'], // Assuming you want to include the related subject entity
+      relations: ['subject'],
     });
     if (!session) {
-      throw new Error(`Session with ID ${id} not found`);
+      throw new NotFoundException(`Session with ID ${id} not found`);
     }
     Object.assign(session, updateSessionDto);
     return this.Sessiontrepository.save(session);
@@ -81,10 +81,10 @@ export class SessionsService {
   async remove(id: number) {
     const session = await this.Sessiontrepository.findOne({
       where: { id: id.toString() },
-      relations: ['subject'], // Assuming you want to include the related subject entity
+      relations: ['subject'],
     });
     if (!session) {
-      throw new Error(`Session with ID ${id} not found`);
+      throw new NotFoundException(`Session with ID ${id} not found`);
     }
     await this.Sessiontrepository.remove(session);
     return { message: `Session with ID ${id} deleted successfully` };
