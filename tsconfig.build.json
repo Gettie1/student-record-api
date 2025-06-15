@@ -1,8 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "seed-data"],
-  "experimentalDecorators": true,
-  "emitDecoratorMetadata": true,
   "compilerOptions": {
     "outDir": "./dist",
     "declaration": true,
@@ -13,5 +10,9 @@
     "strictNullChecks": false,
     "skipLibCheck": true,
     "lib": ["es6", "dom"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "seed-data"]
 }
+
