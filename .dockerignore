@@ -5,5 +5,5 @@ dist
 .gitignore
 .prettierrc
 README.md
-Dockerfile
+Dockerfile.dev
 .vscode

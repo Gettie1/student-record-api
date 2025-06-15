@@ -41,7 +41,7 @@ services:
   nestjs-app-prod:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     container_name: nestjs-app-prod
     restart: unless-stopped
     environment:
