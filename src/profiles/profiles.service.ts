@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 // import { UpdateProfileDto } from './dto/update-profile.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,7 +28,7 @@ export class ProfilesService {
       select: ['id'],
     });
     if (existingProfile) {
-      throw new Error(
+      throw new BadRequestException(
         `Profile with email ${createProfileDto.email} already exists`,
       );
     }
@@ -47,7 +47,7 @@ export class ProfilesService {
       })
       .catch((error) => {
         console.error('Error creating profile:', error);
-        throw new Error('Failed to create profile');
+        throw new BadRequestException('Failed to create profile');
       });
     return this.excludePassword(savedProfile);
   }
@@ -58,7 +58,7 @@ export class ProfilesService {
         where: {
           email: email,
         },
-        relations: ['student'],
+        // relations: ['student'],
       });
     } else {
       profiles = await this.profileRepository.find({
@@ -70,12 +70,12 @@ export class ProfilesService {
   async findOne(id: string): Promise<Partial<Profile>> {
     const profile = await this.profileRepository.findOne({
       where: { id: Number(id) },
-      relations: ['student'], // Ensure to load the student relation
+      // relations: ['student'], // Ensure to load the student relation
     });
     if (!profile) {
       throw new NotFoundException(`Profile with ID ${id} not found`);
     }
-    return profile;
+    return this.excludePassword(profile);
   }
   async update(
     id: string,
@@ -83,19 +83,20 @@ export class ProfilesService {
   ): Promise<Partial<Profile>> {
     const profile = await this.profileRepository.findOne({
       where: { id: Number(id) },
-      relations: ['student'], // Ensure to load the student relation
+      // relations: ['student'], // Ensure to load the student relation
     });
     if (!profile) {
       throw new NotFoundException(`Profile with ID ${id} not found`);
     }
     // Update the profile with the new data
     Object.assign(profile, updateProfileDto);
-    return await this.profileRepository.save(profile);
+    const updateProfile = await this.profileRepository.save(profile);
+    return this.excludePassword(updateProfile);
   }
   async remove(id: string): Promise<string> {
     const profile = await this.profileRepository.findOne({
       where: { id: Number(id) },
-      relations: ['student'], // Ensure to load the student relation
+      // relations: ['student'], // Ensure to load the student relation
     });
     if (!profile) {
       throw new NotFoundException(`Profile with ID ${id} not found`);

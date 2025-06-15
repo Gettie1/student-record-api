@@ -57,7 +57,7 @@ export class RegistrationsService {
       where: { id: id.toString() },
     });
     if (!registration) {
-      throw new Error(`Registration with ID ${id} not found`);
+      throw new NotFoundException(`Registration with ID ${id} not found`);
     }
     return registration;
   }
@@ -70,7 +70,7 @@ export class RegistrationsService {
       where: { id: id.toString() },
     });
     if (!registration) {
-      throw new Error(`Registration with ID ${id} not found`);
+      throw new NotFoundException(`Registration with ID ${id} not found`);
     }
     Object.assign(registration, updateRegistrationDto);
     return await this.registrationRepository.save(registration);

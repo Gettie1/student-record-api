@@ -72,7 +72,7 @@ export class CoursesService {
       relations: ['students'],
     });
     if (!course) {
-      throw new Error(`Course with ID ${id} not found`);
+      throw new NotFoundException(`Course with ID ${id} not found`);
     }
     // Update the course with the new data
     Object.assign(course, updateCourseDto);
@@ -82,7 +82,7 @@ export class CoursesService {
   remove(id: number) {
     return this.courseRepository.delete(id).then((result) => {
       if (result.affected === 0) {
-        throw new Error(`Course with ID ${id} not found`);
+        throw new NotFoundException(`Course with ID ${id} not found`);
       }
       return `Course with ID ${id} has been removed successfully`;
     });

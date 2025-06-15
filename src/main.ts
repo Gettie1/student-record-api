@@ -87,7 +87,7 @@ The **Student Records Management System API** enables both administrators and st
     //   },
     //   'api-key', // Name of the security scheme
     // )
-    .addServer(`http://localhost:${port}`, 'Local development server')
+    .addServer(`http://localhost:4510`, 'Local development server')
     .addServer(`https://student.example.com`, 'Production server')
     .build();
 

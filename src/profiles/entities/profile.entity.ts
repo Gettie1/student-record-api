@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Student } from 'src/student/entities/student.entity/student.entity';
 import { Admin } from 'src/admins/entities/admin.entity';
+import { Exclude } from 'class-transformer';
 
 export enum Role {
   STUDENT = 'student',
@@ -28,6 +29,7 @@ export class Profile {
   @Column()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
@@ -37,6 +39,7 @@ export class Profile {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
+  @Exclude()
   @Column({ type: 'text', nullable: true, default: null })
   hashedRefreshToken: string | null;
 

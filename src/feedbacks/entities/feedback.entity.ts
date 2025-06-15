@@ -3,16 +3,16 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Feedback {
   @PrimaryGeneratedColumn()
-  user_id: number;
+  user_id: string;
 
   @Column()
-  subjectId: number;
+  subjectId: string;
 
   @Column()
   feedback: string;
 
   @Column()
-  rating: number;
+  rating: string;
 
   @Column()
   timestamp: Date;

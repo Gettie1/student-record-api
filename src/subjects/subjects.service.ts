@@ -39,7 +39,7 @@ export class SubjectsService {
   async findAll() {
     try {
       if (!this.Subjectrepository) {
-        throw new Error('Subject repository is not initialized');
+        throw new NotFoundException('Subject repository is not initialized');
       }
       return await this.Subjectrepository.find({
         relations: ['course', 'sessions'], // Assuming you want to include related entities
@@ -62,7 +62,7 @@ export class SubjectsService {
       return subject;
     } catch (error) {
       console.error(`Error finding subject with ID ${id}:`, error);
-      throw new Error(`Subject with ID ${id} not found`);
+      throw new NotFoundException(`Subject with ID ${id} not found`);
     }
   }
 
@@ -78,7 +78,7 @@ export class SubjectsService {
       return this.Subjectrepository.save(updatedSubject);
     } catch (error) {
       console.error(`Error updating subject with ID ${id}:`, error);
-      throw new Error(`Subject with ID ${id} not found`);
+      throw new NotFoundException(`Subject with ID ${id} not found`);
     }
   }
 
@@ -91,9 +91,7 @@ export class SubjectsService {
       return { message: `Subject with ID ${id} deleted successfully` };
     } catch (error) {
       console.error(`Error removing subject with ID ${id}:`, error);
-      throw new Error(`Subject with ID ${id} not found`);
+      throw new NotFoundException(`Subject with ID ${id} not found`);
     }
   }
 }
-// The findAll method is already implemented within the SubjectsService class above.
-// You can safely remove this placeholder function as it is redundant.

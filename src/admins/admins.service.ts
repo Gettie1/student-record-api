@@ -15,7 +15,10 @@ export class AdminsService {
   ) {}
   async create(createAdminDto: CreateAdminDto) {
     const existingAdmin = await this.adminsRepository.findOne({
-      where: { id: String(createAdminDto.profileId) },
+      where: {
+        admin_id: String(createAdminDto.profileId),
+        email: createAdminDto.email,
+      },
     });
     if (existingAdmin) {
       throw new NotFoundException(
@@ -32,7 +35,11 @@ export class AdminsService {
     try {
       if (search) {
         return await this.adminsRepository.find({
-          where: [{ id: search }, { username: search }, { email: search }],
+          where: [
+            { admin_id: search },
+            { username: search },
+            { email: search },
+          ],
           relations: ['profile'],
         });
       }
@@ -48,7 +55,7 @@ export class AdminsService {
   async findOne(id: number) {
     try {
       const admin = await this.adminsRepository.findOne({
-        where: { id: String(id) },
+        where: { admin_id: String(id) },
         relations: ['profile'],
       });
       if (!admin) {
@@ -63,7 +70,7 @@ export class AdminsService {
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
     const admin = await this.adminsRepository.findOne({
-      where: { id: String(id) },
+      where: { admin_id: String(id) },
       relations: ['profile'],
     });
     if (!admin) {
@@ -88,7 +95,7 @@ export class AdminsService {
 
   async remove(id: number) {
     const admin = await this.adminsRepository.findOne({
-      where: { id: String(id) },
+      where: { admin_id: String(id) },
     });
     if (!admin) {
       throw new NotFoundException(`Admin with ID ${id} not found`);

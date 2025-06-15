@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { FeedbacksService } from './feedbacks.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
 import { AtGuard } from 'src/auth/guards/at.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -32,9 +33,16 @@ export class FeedbacksController {
     return this.feedbacksService.create(createFeedbackDto);
   }
   @Roles(Role.ADMIN, Role.STUDENT, Role.GUEST) // This is a custom decorator to check if the user has the ADMIN role
+  @ApiQuery({
+    name: 'Search',
+    required: false,
+    description:
+      'Filter feedbacks by user_id, subjectId, feedback, rating, or additional_comments',
+    type: String,
+  })
   @Get()
-  findAll() {
-    return this.feedbacksService.findAll();
+  findAll(@Query('Search') Search?: string) {
+    return this.feedbacksService.findAll(Search);
   }
   @Roles(Role.ADMIN, Role.STUDENT, Role.GUEST) // This is a custom decorator to check if the user has the ADMIN role
   @Get(':id')

@@ -84,5 +84,6 @@ export class Student {
   @JoinTable()
   courses: Relation<Course[]>;
   @ManyToMany(() => Report, (report) => report.students)
+  @JoinTable()
   reports: Report[];
 }

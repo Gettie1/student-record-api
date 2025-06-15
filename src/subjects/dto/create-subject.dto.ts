@@ -6,7 +6,7 @@
 // credits	INT	Credits assigned to the subject
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsString, IsDate } from 'class-validator';
+import { IsString, IsDate, IsOptional } from 'class-validator';
 export class CreateSubjectDto {
   @ApiProperty({
     description: 'Unique identifier for the subject',
@@ -24,6 +24,7 @@ export class CreateSubjectDto {
     description: 'Timestamp when the subject was created',
     example: '2023-10-01T12:00:00Z',
   })
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
   createdAt: string;
@@ -31,6 +32,7 @@ export class CreateSubjectDto {
     description: 'Timestamp when the subject was last updated',
     example: '2023-10-01T12:00:00Z',
   })
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
   updatedAt: string; // Assuming this is a string for simplicity, can be Date if needed

@@ -54,7 +54,7 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-@getrude123}
     ports:
-      - "8000:8000"
+      - "4510:8000"
     depends_on:
       students-records_db:
         condition: service_healthy

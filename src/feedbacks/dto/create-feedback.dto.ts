@@ -6,14 +6,14 @@ export class CreateFeedbackDto {
     description: 'Unique identifier for the user providing feedback',
     example: 1,
   })
-  @IsInt()
-  user_id: number;
+  @IsString()
+  user_id: string; // Assuming user_id is a string, adjust if it's a number
   @ApiProperty({
     description: 'Unique identifier for the subject being reviewed',
     example: 101,
   })
-  @IsInt()
-  subjectId: number;
+  @IsString()
+  subjectId: string;
   @ApiProperty({
     description: 'Detailed feedback provided by the user',
     example: 'The course content was very informative and well-structured.',
@@ -25,7 +25,7 @@ export class CreateFeedbackDto {
     example: 4,
   })
   @IsInt()
-  rating: number;
+  rating: string;
   @ApiProperty({
     description: 'Timestamp of when the feedback was submitted',
     example: '2023-10-01T12:00:00Z',

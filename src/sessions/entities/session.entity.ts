@@ -6,6 +6,7 @@ export class Session {
   @PrimaryGeneratedColumn()
   id: string;
   @Column({ nullable: false })
+  sessionName: string; // Name of the session
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   startTime: Date;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

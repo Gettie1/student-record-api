@@ -13,27 +13,29 @@ export class SessionsService {
     @InjectRepository(Subject) private SubjectRepository: Repository<Subject>,
   ) {}
   async create(createSessionDto: CreateSessionDto) {
-    try {
-      // Check if the subject exists
-      const subject = await this.SubjectRepository.findOne({
-        where: { subjectName: createSessionDto.subjectId },
-      });
-      if (!subject) {
-        throw new NotFoundException(
-          `Subject with ID ${createSessionDto.subjectId} not found`,
-        );
-      }
-
-      const session = this.Sessiontrepository.create({
-        ...createSessionDto,
-        subject,
-      });
-
-      return await this.Sessiontrepository.save(session);
-    } catch (error) {
-      console.error('Error creating session:', error);
-      throw new NotFoundException('Session creation failed');
+    // Ensure CreateSessionDto and Session entity have a 'sessionName' property
+    const existingSession = await this.Sessiontrepository.findOne({
+      where: { sessionName: createSessionDto.sessionName },
+      relations: ['subject'],
+    });
+    if (existingSession) {
+      throw new NotFoundException(
+        `Session with name ${createSessionDto.sessionName} already exists`,
+      );
     }
+    const subject = await this.SubjectRepository.findOne({
+      where: { subjectId: createSessionDto.subjectId },
+    });
+    if (!subject) {
+      throw new NotFoundException(
+        `Subject with ID ${createSessionDto.subjectId} not found`,
+      );
+    }
+    const session = this.Sessiontrepository.create({
+      ...createSessionDto,
+      subject,
+    });
+    return this.Sessiontrepository.save(session);
   }
 
   async findAll() {

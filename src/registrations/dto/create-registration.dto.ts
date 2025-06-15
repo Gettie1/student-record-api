@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateRegistrationDto {
   @ApiProperty({
     description: 'Unique identifier for the registration',
-    example: 'reg12345',
+    example: '12345',
   })
   @IsString()
   @IsNotEmpty()
