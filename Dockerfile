@@ -28,7 +28,7 @@ RUN pnpm install --prod --frozen-lockfile
 # Copy built app from builder stage
 COPY --from=builder /app/dist ./dist
 # 🔥 Copy environment file
-COPY .env.production .env
+# COPY .env.production .env
 # Create applogs directory
 RUN mkdir -p /app/applogs && \
     chown -R nestjs:nodejs /app
