@@ -714,9 +714,4 @@ Authorization: Bearer {{admin_token}}
 
 ### Delete an admin login
 DELETE {{url}}/admin-logins/1
-
-
-
-
-
-
+Authorization: Bearer {{admin_token}}
