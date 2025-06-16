@@ -1,7 +1,7 @@
 services:
   students-records_db:
     image: postgres:15-alpine
-    container_name: students-records_db-prod
+    # container_name: students-records_db-prod
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
@@ -21,7 +21,7 @@ services:
       retries: 5
   redis:
     image: redis:8.0-alpine
-    container_name: redis-cache-prod
+    # container_name: redis-cache-prod
     restart: unless-stopped
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD:-@getrude123}
@@ -42,7 +42,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nestjs-app-prod
+    # container_name: nestjs-app-prod
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -55,6 +55,13 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-@getrude123}
       - REDIS_URL=redis://default:${REDIS_PASSWORD:-@getrude123}@redis:6379
+      - THROTTLE_LIMIT=100
+      - THROTTLE_TTL=60
+      - PORT=8000
+      - JWT_ACCESS_TOKEN_SECRET=${JWT_ACCESS_TOKEN_SECRET:-@getrude123}
+      - JWT_REFRESH_TOKEN_SECRET=${JWT_REFRESH_TOKEN_SECRET:-@getrude123}
+      - JWT_ACCESS_TOKEN_EXPIRATION=${JWT_ACCESS_TOKEN_EXPIRATION:-15m}
+      - JWT_REFRESH_TOKEN_EXPIRATION=${JWT_REFRESH_TOKEN_EXPIRATION:-7d}
     ports:
       - "4510:8000"
     depends_on:
