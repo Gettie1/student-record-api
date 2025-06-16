@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   JoinColumn,
   Relation,
   OneToOne,
@@ -11,7 +11,7 @@ import { Profile } from '../../profiles/entities/profile.entity';
 import { AdminLogin } from 'src/admin-logins/entities/admin-login.entity';
 @Entity()
 export class Admin {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   admin_id: string;
   @Column()
   username: string;
