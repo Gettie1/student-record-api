@@ -19,7 +19,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggerMiddleware } from './logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
 // import { SeedDataModule } from './seed-data/seed-data.module';
-import { LogsModule } from './logs/logs.module';
+import { LogsModule } from './app.logs/logs.module';
 // import { AuthGuard } from '@nestjs/passport';
 import { AtGuard } from './auth/guards/at.guard';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
